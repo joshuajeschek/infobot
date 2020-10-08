@@ -7,5 +7,6 @@ class Miscellaneous(commands.Cog):
 
     @commands.command()  # !ping
     async def ping(self, ctx):
-        await ctx.send(f'My current ping: {round(self.bot.latency * 1000)}ms')
-        print(f'>>> Showed my ping, as requested by {ctx.message.author}')
+        ping = round(self.bot.latency * 1000)
+        await ctx.send(f'My current ping: {ping}ms')
+        print(f'>>> Showed my ping({ping}), as requested by {ctx.message.author}')
