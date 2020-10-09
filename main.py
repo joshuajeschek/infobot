@@ -6,9 +6,10 @@ from PyInquirer import prompt
 from admin import AdminTools
 from misc import Miscellaneous
 from roles import RoleManagement
+from mensa import Mensa
 
 
-cogs = (AdminTools, Miscellaneous, RoleManagement)
+cogs = (AdminTools, Miscellaneous, RoleManagement, Mensa)
 
 
 def application_choice():  # choosing application
