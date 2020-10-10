@@ -22,7 +22,7 @@ class Mensa(commands.Cog):
 
 
 def getPayload(location, date):
-    if location == 'strana':
+    if location == ('strana' or 'Strana' or 'StraNa' or 'STRANA' or 'straNa'):
         x = {'plan': '773823070'}
     else:
         x = {'plan': '1479835489'}
