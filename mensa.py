@@ -3,6 +3,8 @@ import requests
 import json
 from discord.ext import commands
 from datetime import timedelta, date as dt
+from discord import Embed
+from re import compile
 
 class Mensa(commands.Cog):
 
@@ -15,9 +17,7 @@ class Mensa(commands.Cog):
         data = getData(payload)
         intro = parseIntro(payload)
         meals = parseMeals(data)
-        await ctx.send(intro)
-        for meal in meals:
-            await ctx.send(meal)
+        await ctx.send(content=intro, embed=meals)
         print(f'>>> Showed the menu to {ctx.message.author}')
 
 
@@ -85,20 +85,18 @@ def parseIntro(payload):
 
 
 def parseMeals(data):
-    messages = []
+    meals = Embed()
     if data is False:
-        return(['> Für diesen Tag kann ich leider keinen Speiseplan finden.'])
+        meals.colour = 12401435
+        meals.description = 'Für diesen Tag kann ich leider keinen Speiseplan finden.'
+        return(meals)
 
+    meals.colour = 6982182
+    p = compile(' ?\(.*?\)')
     for meal in data:
-        messages.append(f'```css\n'
-                        f'{meal["@kategorie"]}\n'
-                        '``````yaml\n'
-                        f'{meal["deutsch"]}\n'
-                        f'{meal["pr"][0]["@gruppe"]}: {meal["pr"][0]["#text"]}€     '
-                        f'{meal["pr"][1]["@gruppe"]}: {meal["pr"][1]["#text"]}€     '
-                        f'{meal["pr"][2]["@gruppe"]}: {meal["pr"][2]["#text"]}€\n'
-                        '```')
-    return(messages)
+        deutsch = p.sub('', meal['deutsch'])
+        meals.add_field(name=meal["@kategorie"], value=f'{deutsch}\n`{meal["pr"][0]["@gruppe"]}: {meal["pr"][0]["#text"]}€\n{meal["pr"][1]["@gruppe"]}: {meal["pr"][1]["#text"]}€\n{meal["pr"][2]["@gruppe"]}: {meal["pr"][2]["#text"]}€`')
+    return(meals)
 
 
 if __name__ == '__main__':
