@@ -26,7 +26,7 @@ def application_choice():  # choosing application
     print('...')
 
     if application['application'] == 'infobot':
-        return config('TOKEN')
+        return config('INFOBOT')
     else:
         return config('TEST')
 
