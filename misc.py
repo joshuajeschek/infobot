@@ -10,3 +10,6 @@ class Miscellaneous(commands.Cog):
         ping = round(self.bot.latency * 1000)
         await ctx.send(f'My current ping: {ping}ms')
         print(f'>>> Showed my ping({ping}), as requested by {ctx.message.author}')
+
+    @commands.command() # !help
+    async def help(self, ctx):
