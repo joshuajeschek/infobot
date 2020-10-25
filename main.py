@@ -8,7 +8,6 @@ from misc import Miscellaneous
 from roles import RoleManagement
 from mensa import Mensa
 
-
 cogs = (AdminTools, Miscellaneous, RoleManagement, Mensa)
 
 
@@ -33,7 +32,7 @@ def application_choice():  # choosing application
 
 if __name__ == '__main__':
 
-    client = commands.Bot(command_prefix='!')
+    client = commands.Bot(command_prefix='!', help_command=None)
 
     for cog in cogs:
         client.add_cog(cog(client))

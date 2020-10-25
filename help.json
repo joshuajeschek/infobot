@@ -1,0 +1,21 @@
+{
+    "title": "Das sind meine comands:",
+    "color": 24400,
+    "thumbnail": {
+      "url": "https://cdn.discordapp.com/attachments/707505654218358818/766736339004555274/Download_3.png"
+    },
+    "fields": [
+      {
+        "name": "Mensa :salad:",
+        "value": "`!essen <location> <day>`\nZeigt dir das Essen, welches es in der Mensa gibt. Mögliche Werte:\n`<location>` - `strana`, `reichenhainer`\n`<day>` - `heute`, `morgen`, `übermorgen` oder ein beliebiges Datum innerhalb der nächsten 7 Tage"
+      },
+      {
+        "name": "Role Management :busts_in_silhouette:",
+        "value": "`!join <role>` / `!leave <role>`\nFügt dir eine Rollen hinzu und entfernt sie. Mehr Information in <#763797543461060618>."
+      },
+      {
+        "name": "Miscellaneous :nazar_amulet:",
+        "value": "`!ping`\nZeigt den aktuellen Ping zu mir an.\n\n`!invite`\nWie war nochmal der invite-link?"
+      }
+    ]
+  }
