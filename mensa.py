@@ -98,7 +98,7 @@ def getData(payload):
     raw = json.loads(json.dumps(xmltodict.parse(re.text)))
     try:
         essen = raw['speiseplan']['essen']
-    except:
+    except Exception:
         essen = False
     finally:
         return(essen)
@@ -148,7 +148,7 @@ if __name__ == '__main__':
 
     try:
         essen = dict['speiseplan']['essen']
-    except:
+    except Exception:
         essen = False
 
     if essen is False:

@@ -51,7 +51,7 @@ while True:
 
             try:
                 data = raw['speiseplan']['essen']
-            except:
+            except Exception:
                 data = False
 
             if data is False:
@@ -65,7 +65,7 @@ while True:
                 print(item['@kategorie'])
                 webhook = DiscordWebhook(url='https://discordapp.com/api/webhooks/770308860207431760/oi5tZV9zEJYIX6_JEkhegzZHpD6TGCVAdVhYEsyn0H29ZJ6KdSCF6pgOWuYo5YkZ1AOU', content=f'A new category approaches: {item["@kategorie"]} `{td}`')
                 webhook.execute()
-        except:
+        except Exception:
             print('Something went wrong.')
 
     print('Sleeping for a bit')

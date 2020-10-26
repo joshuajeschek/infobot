@@ -23,7 +23,7 @@ while td.year > 2010:
 
         try:
             data = raw['speiseplan']['essen']
-        except:
+        except Exception:
             data = False
 
         if data is False:
@@ -35,7 +35,7 @@ while td.year > 2010:
             else:
                 categories.append(item['@kategorie'])
             print(f'{item["@kategorie"]} - {td}', end='\n')
-    except:
+    except Exception:
         td = td - timedelta(days=1)
         continue
     else:
