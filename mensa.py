@@ -6,6 +6,33 @@ from datetime import timedelta, date as dt
 from discord import Embed
 from re import compile
 
+categoriemoji = {
+    'Pastatheke': ':spaghetti:',
+    'Abend - Grill-Diner': ':meat_on_bone:',
+    'Heiße Theke - Pastabar': ':spaghetti:',
+    'Ofen': ':pie:',
+    'Schneller Teller': ':fork_knife_plate:',
+    'Pizza': ':pizza:',
+    'Abend - Get your Bowl': ':bowl_with_spoon:',
+    'Grill': ':meat_on_bone:',
+    'Abend - Schnitzel satt': ':stew:',
+    'Heiße Theke': ':hotsprings:',
+    'Wok': ':shallow_pan_of_food:',
+    'Abend - Burger-Dinner': ':hamburger:',
+    'Heiße Theke - Suppe': ':bowl_with_spoon:',
+    'Pasta': ':spaghetti:',
+    'Wok - mensaVital': ':shallow_pan_of_food:',
+    'mensaVital': ':salad:',
+    'Campusteller': ':fork_knife_plate:',
+    'Campus Cooking': ':stuffed_flatbread:',
+    'Essen 1': ':salad:',
+    'Abend - Pasta, Pasta': ':spaghetti:',
+    'Catch of the day': ':fishing_pole_and_fish:',
+    'Bioessen (DE-ÖKO-006)': ':herb:',
+    'Heiße Theke - Eintopf': ':ramen:',
+    'Ofen - mensaVital': ':pie:'
+}
+
 class Mensa(commands.Cog):
 
     def __init__(self, bot):
@@ -69,7 +96,6 @@ def getData(payload):
     re = requests.get(
         'https://www.swcz.de/bilderspeiseplan/xml.php', params=payload)
     raw = json.loads(json.dumps(xmltodict.parse(re.text)))
-    print(f'{raw}')
     try:
         essen = raw['speiseplan']['essen']
     except:
@@ -97,8 +123,11 @@ def parseMeals(data):
     for meal in data:
         if meal['@kategorie'] == 'Hinweis':
             continue
+        if meal['@kategorie'] in categoriemoji.keys():
+            meal['@kategorie'] += f' {categoriemoji[meal["@kategorie"]]}'
         deutsch = p.sub('', meal['deutsch'])
-        meals.add_field(name=meal["@kategorie"], value=f'{deutsch}\n`{meal["pr"][0]["@gruppe"]}: {meal["pr"][0]["#text"]}€\n{meal["pr"][1]["@gruppe"]}: {meal["pr"][1]["#text"]}€\n{meal["pr"][2]["@gruppe"]}: {meal["pr"][2]["#text"]}€`')
+        meals.add_field(
+            name=meal["@kategorie"], value=f'{deutsch}\n`{meal["pr"][0]["@gruppe"]}: {meal["pr"][0]["#text"]}€\n{meal["pr"][1]["@gruppe"]}: {meal["pr"][1]["#text"]}€\n{meal["pr"][2]["@gruppe"]}: {meal["pr"][2]["#text"]}€`')
     return(meals)
 
 
