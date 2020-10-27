@@ -6,6 +6,33 @@ from datetime import timedelta, date as dt
 from discord import Embed
 from re import compile
 
+categoriemoji = {
+    'Pastatheke': ':spaghetti:',
+    'Abend - Grill-Diner': ':meat_on_bone:',
+    'Heiße Theke - Pastabar': ':spaghetti:',
+    'Ofen': ':pie:',
+    'Schneller Teller': ':fork_knife_plate:',
+    'Pizza': ':pizza:',
+    'Abend - Get your Bowl': ':bowl_with_spoon:',
+    'Grill': ':meat_on_bone:',
+    'Abend - Schnitzel satt': ':stew:',
+    'Heiße Theke': ':hotsprings:',
+    'Wok': ':shallow_pan_of_food:',
+    'Abend - Burger-Dinner': ':hamburger:',
+    'Heiße Theke - Suppe': ':bowl_with_spoon:',
+    'Pasta': ':spaghetti:',
+    'Wok - mensaVital': ':shallow_pan_of_food:',
+    'mensaVital': ':salad:',
+    'Campusteller': ':fork_knife_plate:',
+    'Campus Cooking': ':stuffed_flatbread:',
+    'Essen 1': ':salad:',
+    'Abend - Pasta, Pasta': ':spaghetti:',
+    'Catch of the day': ':fishing_pole_and_fish:',
+    'Bioessen (DE-ÖKO-006)': ':herb:',
+    'Heiße Theke - Eintopf': ':ramen:',
+    'Ofen - mensaVital': ':pie:'
+}
+
 class Mensa(commands.Cog):
 
     def __init__(self, bot):
@@ -71,7 +98,7 @@ def getData(payload):
     raw = json.loads(json.dumps(xmltodict.parse(re.text)))
     try:
         essen = raw['speiseplan']['essen']
-    except:
+    except Exception:
         essen = False
     finally:
         return(essen)
@@ -94,16 +121,21 @@ def parseMeals(data):
     meals.colour = 6982182
     p = compile(' ?\(.*?\)')
     for meal in data:
+        if meal['@kategorie'] == 'Hinweis':
+            continue
+        if meal['@kategorie'] in categoriemoji.keys():
+            meal['@kategorie'] += f' {categoriemoji[meal["@kategorie"]]}'
         deutsch = p.sub('', meal['deutsch'])
-        meals.add_field(name=meal["@kategorie"], value=f'{deutsch}\n`{meal["pr"][0]["@gruppe"]}: {meal["pr"][0]["#text"]}€\n{meal["pr"][1]["@gruppe"]}: {meal["pr"][1]["#text"]}€\n{meal["pr"][2]["@gruppe"]}: {meal["pr"][2]["#text"]}€`')
+        meals.add_field(
+            name=meal["@kategorie"], value=f'{deutsch}\n`{meal["pr"][0]["@gruppe"]}: {meal["pr"][0]["#text"]}€\n{meal["pr"][1]["@gruppe"]}: {meal["pr"][1]["#text"]}€\n{meal["pr"][2]["@gruppe"]}: {meal["pr"][2]["#text"]}€`')
     return(meals)
 
 
 if __name__ == '__main__':
-    payload = {'plan': '773823070',
+    payload = {'plan': '1479835489',
                'jahr': '2020',
                'monat': '10',
-               'tag': '12'}
+               'tag': '23'}
 
     re = requests.get(
         'https://www.swcz.de/bilderspeiseplan/xml.php', params=payload)
@@ -112,9 +144,11 @@ if __name__ == '__main__':
 
     dict = json.loads(json.dumps(xmltodict.parse(re.text)))
 
+    print(dict)
+
     try:
         essen = dict['speiseplan']['essen']
-    except:
+    except Exception:
         essen = False
 
     if essen is False:
@@ -122,6 +156,8 @@ if __name__ == '__main__':
 
     else:
         for gericht in essen:
+            if gericht['@kategorie'] == 'Hinweis':
+                continue
             print(gericht['@kategorie'])
             print(gericht['deutsch'])
             for preis in gericht['pr']:
