@@ -11,7 +11,7 @@
     "fields": [
       {
         "name": "<role>\t:busts_in_silhouette:",
-        "value": "**M\u00F6gliche Werte:**\n`Informatik`\n`Angewandte Informatik`\n`Automobilinformatik`\n`Kommunikation`\n`Automotive Software Engineering`\n`Neurorobotik`\n`Geistes + Sozialwissenschaft`\n`Web Engineering`\n`Biomedizinische Technik`\n`MINT`\n`Data Science`\nDie Immatrikulationsjahre von 2010 bis 2020, mit folgender Syntax:\n`s2010`-`s2020`"
+        "value": "**M\u00F6gliche Werte:**\n`Informatik`\n`Angewandte Informatik`\n`Automobilinformatik`\n`Kommunikation`\n`Automotive Software Engineering`\n`Neurorobotik`\n`Geistes + Sozialwissenschaft`\n`Web Engineering`\n`Biomedizinische Technik`\n`MINT`\n`Data Science`\nDie Immatrikulationsjahre von 2010 bis 2020, mit folgender Syntax:\n`s2010`-`s2020`\n\nFolgende Gruppen bestehen außerdem:\n`among us`"
       }
     ]
   }
