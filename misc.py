@@ -21,17 +21,15 @@ class Miscellaneous(commands.Cog):
         print(f'>>> Showed invite to {ctx.message.author}')
 
     @commands.command()  # !help
-    async def help(self, ctx, command='all'):
-        if command == 'all':
-            print('all')
+    async def help(self, ctx, command='help'):
+        try:
+            f = open(f'help/{command}.json', 'r')
+            d = json.loads(f.read())
+            e = Embed.from_dict(d)
+            await ctx.send(embed=e)
+        except FileNotFoundError:
+            await ctx.send(f'Der Command `!{command}` existiert nicht, oder wurde nicht dokumentiert.')
         print(f'Tried to help {ctx.message.author}')
 
-
 if __name__ == '__main__':
-    f = open('help.json', 'r')
-    d = json.loads(f.read())
-
-    e = Embed.from_dict(d)
-
-    print(d)
-    print(e.title)
+    print('Maybe try starting the bot with main.py')
