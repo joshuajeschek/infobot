@@ -25,11 +25,16 @@ class Miscellaneous(commands.Cog):
         try:
             f = open(f'help/{command}.json', 'r')
             d = json.loads(f.read())
+            f.close()
             e = Embed.from_dict(d)
             await ctx.send(embed=e)
         except FileNotFoundError:
-            await ctx.send(f'Der Command `!{command}` existiert nicht, oder wurde nicht dokumentiert.')
+            await ctx.send(
+                f'Der Command `!{command}` existiert nicht, oder wurde nicht dokumentiert.',
+                delete_after=3.0)
+            await ctx.message.delete()
         print(f'Tried to help {ctx.message.author}')
+
 
 if __name__ == '__main__':
     print('Maybe try starting the bot with main.py')
