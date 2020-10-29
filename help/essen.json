@@ -1,6 +1,6 @@
 {
     "title": "`!essen <location> <day>`",
-    "description": "Zeigt dir das Essen, welches es in der Mensa gibt.",
+    "description": "Zeigt dir das Essen, welches es in der Mensa gibt.\nAlias: `!e`",
     "color": 24400,
     "footer": {
       "text": "Beim Einsetzen der Werte werden die < > weggelassen."
@@ -11,11 +11,11 @@
     "fields": [
       {
         "name": "<location>\t:round_pushpin:",
-        "value": "**M\u00F6gliche Werte:**\n`strana`, `reichenhainer`"
+        "value": "**M\u00F6gliche Werte:**\n`strana`\n`reichenhainer`, `rh`"
       },
       {
         "name": "<day>\t:calendar:",
-        "value": "**M\u00F6gliche Werte:**\n`heute`, `morgen`, `\u00FCbermorgen`\noder ein Datum innerhalb der n\u00E4chsten sieben Tage in diesem Format:\n`dd.mm.`"
+        "value": "**M\u00F6gliche Werte:**\n`heute`, `h`\n`morgen`, `m`\n`\u00FCbermorgen`, `\u00FC`\noder ein Datum innerhalb der n\u00E4chsten sieben Tage in diesem Format:\n`dd.mm.`"
       }
     ]
   }

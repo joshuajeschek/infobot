@@ -38,8 +38,8 @@ class Mensa(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()  # !essen
-    async def essen(self, ctx, location='strana', date='heute'):
+    @commands.command(aliases=['e'])  # !essen
+    async def essen(self, ctx, location='rh', date='heute'):
         payload = getPayload(location, date)
         data = getData(payload)
         intro = parseIntro(payload)
@@ -56,19 +56,19 @@ def getPayload(location, date):
 
     t = t0 = dt.today()
 
-    if date == 'heute':
+    if date in ['heute', 'h']:
         x['jahr'] = t.year
         x['monat'] = t.month
         x['tag'] = t.day
         return(x)
 
-    elif date == 'morgen':
+    elif date in ['morgen', 'm']:
         x['jahr'] = (t + timedelta(days=1)).year
         x['monat'] = (t + timedelta(days=1)).month
         x['tag'] = (t + timedelta(days=1)).day
         return(x)
 
-    elif date == 'übermorgen':
+    elif date in ['übermorgen', 'ü']:
         x['jahr'] = (t + timedelta(days=2)).year
         x['monat'] = (t + timedelta(days=2)).month
         x['tag'] = (t + timedelta(days=2)).day
