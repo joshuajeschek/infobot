@@ -58,7 +58,7 @@ class RoleManagement(commands.Cog):
     async def on_raw_reaction_add(self, ctx: RawReactionActionEvent):
 
         role, member, state = self.parse_reaction_payload(ctx)
-        rChan = self.bot.get_channel(id=771456574202839056)
+        rChan = self.bot.get_channel(id=763797543461060618)
 
         if role is None:
             return
@@ -77,7 +77,7 @@ class RoleManagement(commands.Cog):
     async def on_raw_reaction_remove(self, ctx: RawReactionActionEvent):
 
         role, member, state = self.parse_reaction_payload(ctx)
-        rChan = self.bot.get_channel(id=771456574202839056)
+        rChan = self.bot.get_channel(id=763797543461060618)
 
         if role is None:
             return
