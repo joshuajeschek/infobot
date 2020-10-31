@@ -27,6 +27,7 @@ class AdminTools(commands.Cog):
         d = json.loads(f.read())
         f.close()
         e = Embed.from_dict(d)
+        print(e.fields)
         await msg.edit(embed=e)
         print(f'>>> Edited embed in channel "{msg.channel.name}", as requested by {ctx.message.author}')
 

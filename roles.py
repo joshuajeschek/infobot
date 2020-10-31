@@ -3,11 +3,7 @@ from discord.utils import get
 import json
 from discord import RawReactionActionEvent
 
-rolelist = {}
 
-f = open('resources/roles.json', 'r')
-rolelist = json.loads(f.read())
-f.close()
 
 
 class RoleManagement(commands.Cog):
@@ -98,6 +94,11 @@ class RoleManagement(commands.Cog):
                 f'>>> Removed the role {role.name} from {member}(reaction)')
 
     def parse_reaction_payload(self, payload: RawReactionActionEvent):
+        rolelist = {}
+        f = open('resources/roles-test.json', 'r')
+        rolelist = json.loads(f.read())
+        f.close()
+
         guild_id = payload.guild_id
         if payload.user_id == (740892561237082184 or 763145622076915742):  # compare to bots
             return None, None, None
