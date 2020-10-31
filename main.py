@@ -32,7 +32,10 @@ def application_choice():  # choosing application
 
 if __name__ == '__main__':
 
-    client = commands.Bot(command_prefix='!', help_command=None)
+    intents = discord.Intents.default()
+    intents.members = True
+
+    client = commands.Bot(command_prefix='!', help_command=None, intents=intents)
 
     for cog in cogs:
         client.add_cog(cog(client))

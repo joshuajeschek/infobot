@@ -1,0 +1,27 @@
+{
+  "title": "Hol dir deine Rollen!\t:roll_of_paper:",
+  "description": "Hier kannst du dich Rollen zuweisen und sie wieder entfernen. Klicke dazu auf den dazugeh\u00F6rigen Emoji unter der Nachricht!\nUm die Rolle wieder zu entfernen, klicke einfach nochmal drauf.",
+  "color": 8920863,
+  "author": {
+    "name": "Josh",
+    "icon_url": "https://media.discordapp.net/attachments/707505654218358818/763783195300331520/nyantocat-rgb.png?width=462&height=462"
+  },
+  "fields": [
+    {
+      "name": "Bachelorstudieng\u00E4nge",
+      "value": "<:anginf:771725730387329034>\tAngewandte Informatik\n<:auto:771725731843670047>\tAutomobilinformatik\n<:info:771725731948003339>\tInformatik\n<:kommu:771725733890228324>\tKommunikation"
+    },
+    {
+      "name": "Masterstudieng\u00E4nge",
+      "value": "<:ausoft:771725732098998282>\tAutomotive Software Engineering\n<:neuro:771725734339149844>\tNeurobotik\n<:geso:771725733915000873>\tGeistes + Sozialwissenschaft\n<:webeng:771725734019334224>\tWeb Engineering"
+    },
+    {
+      "name": "Sudieng\u00E4nge in Kooperation mit anderen Fakult\u00E4ten",
+      "value": "<:biotec:771725732212375582>\tBiomedizinische Technik\n<:mint:771725733734514699>\tMINT\n<:data:771725733876989992>\tData Science"
+    },
+    {
+      "name": "weitere Gruppen",
+      "value": "<:amongus:771725731310075944>\tAmong Us\n<:essen:771725734867107860>\tEssen\n"
+    }
+  ]
+}
