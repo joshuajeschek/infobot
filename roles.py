@@ -103,8 +103,8 @@ class RoleManagement(commands.Cog):
         if payload.user_id == (740892561237082184 or 763145622076915742):  # compare to bots
             return None, None, None
         if payload.emoji.name in rolelist.keys():
-            if payload.message_id == 771714847255298048:
-                if payload.channel_id == 771456574202839056:
+            if payload.message_id == 772059947365302292:
+                if payload.channel_id == 763797543461060618:
 
                     guild = self.bot.get_guild(guild_id)
 
