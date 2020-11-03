@@ -35,7 +35,9 @@ if __name__ == '__main__':
     intents = discord.Intents.default()
     intents.members = True
 
-    client = commands.Bot(command_prefix='!', help_command=None, intents=intents)
+    client = commands.Bot(command_prefix='!',
+                          help_command=None,
+                          intents=intents)
 
     for cog in cogs:
         client.add_cog(cog(client))
@@ -43,7 +45,9 @@ if __name__ == '__main__':
 
     @client.event  # Connection confirmation
     async def on_ready():
-        await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name="Prefix: '!'"))
+        await client.change_presence(activity=discord.Activity(
+            type=discord.ActivityType.watching,
+            name="Prefix: '!'"))
         print(f'🆗 {client.user} has connected to Discord!')
 
     client.run(application_choice())

@@ -56,10 +56,11 @@ def getPayload(location, date):
 
     t = t0 = dt.today()
 
+    x['jahr'] = t0.year
+    x['monat'] = t0.month
+    x['tag'] = t0.day
+
     if date in ['heute', 'h']:
-        x['jahr'] = t.year
-        x['monat'] = t.month
-        x['tag'] = t.day
         return(x)
 
     elif date in ['morgen', 'm']:
@@ -86,9 +87,6 @@ def getPayload(location, date):
             t = t + timedelta(days=1)
             i += 1
 
-    x['jahr'] = t0.year
-    x['monat'] = t0.month
-    x['tag'] = t0.day
     return(x)
 
 
@@ -119,7 +117,7 @@ def parseMeals(data):
         return(meals)
 
     meals.colour = 6982182
-    p = compile(' ?\(.*?\)')
+    p = compile(r' ?\(.*?\)')
     for meal in data:
         if meal['@kategorie'] == 'Hinweis':
             continue
@@ -127,11 +125,12 @@ def parseMeals(data):
             meal['@kategorie'] += f' {categoriemoji[meal["@kategorie"]]}'
         deutsch = p.sub('', meal['deutsch'])
         meals.add_field(
-            name=meal["@kategorie"], value=f'{deutsch}\n`{meal["pr"][0]["@gruppe"]}: {meal["pr"][0]["#text"]}€\n{meal["pr"][1]["@gruppe"]}: {meal["pr"][1]["#text"]}€\n{meal["pr"][2]["@gruppe"]}: {meal["pr"][2]["#text"]}€`')
+            name=meal["@kategorie"],
+            value=f'{deutsch}\n`{meal["pr"][0]["@gruppe"]}: {meal["pr"][0]["#text"]}€\n{meal["pr"][1]["@gruppe"]}: {meal["pr"][1]["#text"]}€\n{meal["pr"][2]["@gruppe"]}: {meal["pr"][2]["#text"]}€`')
     return(meals)
 
 
-if __name__ == '__main__':
+if __name__ == '__main__':  # for testing purposes only, mensa.py should always be imported as a cog!
     payload = {'plan': '1479835489',
                'jahr': '2020',
                'monat': '10',
