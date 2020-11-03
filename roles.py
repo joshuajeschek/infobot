@@ -15,7 +15,7 @@ class RoleManagement(commands.Cog):
     async def on_raw_reaction_add(self, ctx: RawReactionActionEvent):
 
         role, member, state = self.parseReactionPayload(ctx)
-        rChan = self.bot.get_channel(config('REACTCHANNELID'))
+        rChan = self.bot.get_channel(int(config('REACTCHANNELID')))
 
         if role is None:
             return
@@ -34,7 +34,7 @@ class RoleManagement(commands.Cog):
     async def on_raw_reaction_remove(self, ctx: RawReactionActionEvent):
 
         role, member, state = self.parseReactionPayload(ctx)
-        rChan = self.bot.get_channel(config('REACTCHANNELID'))
+        rChan = self.bot.get_channel(int(config('REACTCHANNELID')))
 
         if role is None:
             return
@@ -62,8 +62,8 @@ class RoleManagement(commands.Cog):
             return None, None, None
 
         if payload.emoji.name in rolelist.keys():
-            if payload.message_id == config('REACTCHANNELID'):
-                if payload.channel_id == config('REACTMESSAGEID'):
+            if payload.message_id == config('REACTMESSAGEID', cast=int):
+                if payload.channel_id == config('REACTCHANNELID', cast=int):
 
                     guild = self.bot.get_guild(guild_id)
 
