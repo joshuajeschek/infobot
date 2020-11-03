@@ -35,7 +35,7 @@ categoriemoji = {
 
 class Mensa(commands.Cog):
 
-    def __init__(self, bot):
+    def __init__(self, bot, app):
         self.bot = bot
 
     @commands.command(aliases=['e'])  # !essen

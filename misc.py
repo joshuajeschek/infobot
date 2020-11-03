@@ -6,7 +6,7 @@ from functions import openEmbed
 
 class Miscellaneous(commands.Cog):
 
-    def __init__(self, bot):
+    def __init__(self, bot, app):
         self.bot = bot
 
     @commands.command()  # !ping

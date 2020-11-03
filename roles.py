@@ -7,15 +7,23 @@ from decouple import config
 
 class RoleManagement(commands.Cog):
 
-    def __init__(self, bot):
+    def __init__(self, bot, app):
         self.bot = bot
         self.bad = ['Admin', 'bots', 'bot.py', 'Jaskier', 'Server Booster']
+        if app == config('INFOBOT'):
+            self.reactionChannelId = config('REACTCHANNELID', cast=int)
+            self.reactionMessageId = config('REACTMESSAGEID', cast=int)
+            self.rolelist = 'resources/roles.json',
+        elif app == config('TEST'):
+            self.reactionChannelId = config('REACTCHANNELIDC', cast=int)
+            self.reactionMessageId = config('REACTMESSAGEIDC', cast=int)
+            self.rolelist = 'resources/roles-test.json'
 
     @commands.Cog.listener()  # Reaction role adding
     async def on_raw_reaction_add(self, ctx: RawReactionActionEvent):
 
         role, member, state = self.parseReactionPayload(ctx)
-        rChan = self.bot.get_channel(int(config('REACTCHANNELID')))
+        rChan = self.bot.get_channel(self.reactionChannelId)
 
         if role is None:
             return
@@ -34,7 +42,7 @@ class RoleManagement(commands.Cog):
     async def on_raw_reaction_remove(self, ctx: RawReactionActionEvent):
 
         role, member, state = self.parseReactionPayload(ctx)
-        rChan = self.bot.get_channel(int(config('REACTCHANNELID')))
+        rChan = self.bot.get_channel(self.reactionChannelId)
 
         if role is None:
             return
@@ -52,7 +60,7 @@ class RoleManagement(commands.Cog):
 
     def parseReactionPayload(self, payload: RawReactionActionEvent):
         rolelist = {}
-        f = open('resources/roles.json', 'r')
+        f = open(self.rolelist, 'r')
         rolelist = json.loads(f.read())
         f.close()
 
@@ -62,8 +70,8 @@ class RoleManagement(commands.Cog):
             return None, None, None
 
         if payload.emoji.name in rolelist.keys():
-            if payload.message_id == config('REACTMESSAGEID', cast=int):
-                if payload.channel_id == config('REACTCHANNELID', cast=int):
+            if payload.message_id == self.reactionMessageId:
+                if payload.channel_id == self.reactionChannelId:
 
                     guild = self.bot.get_guild(guild_id)
 
