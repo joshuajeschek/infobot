@@ -39,8 +39,10 @@ if __name__ == '__main__':
                           help_command=None,
                           intents=intents)
 
+    app = application_choice()
+
     for cog in cogs:
-        client.add_cog(cog(client))
+        client.add_cog(cog(client, app))
         print(f'Added cog {cog}')
 
     @client.event  # Connection confirmation
@@ -50,4 +52,4 @@ if __name__ == '__main__':
             name="Prefix: '!'"))
         print(f'🆗 {client.user} has connected to Discord!')
 
-    client.run(application_choice())
+    client.run(app)

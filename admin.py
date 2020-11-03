@@ -4,7 +4,7 @@ from functions import openEmbed
 
 class AdminTools(commands.Cog):
 
-    def __init__(self, bot):
+    def __init__(self, bot, app):
         self.bot = bot
 
     @commands.command(hidden=True)  # !clear
