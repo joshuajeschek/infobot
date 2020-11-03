@@ -13,7 +13,7 @@ class RoleManagement(commands.Cog):
         if app == config('INFOBOT'):
             self.reactionChannelId = config('REACTCHANNELID', cast=int)
             self.reactionMessageId = config('REACTMESSAGEID', cast=int)
-            self.rolelist = 'resources/roles.json',
+            self.rolelist = 'resources/roles.json'
         elif app == config('TEST'):
             self.reactionChannelId = config('REACTCHANNELIDC', cast=int)
             self.reactionMessageId = config('REACTMESSAGEIDC', cast=int)
