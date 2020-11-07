@@ -1,7 +1,8 @@
 import xmltodict
 import requests
 import json
-from discord.ext import commands
+from decouple import config
+from discord.ext import commands, tasks
 from datetime import timedelta, date as dt
 from discord import Embed
 from re import compile
@@ -37,6 +38,16 @@ class Mensa(commands.Cog):
 
     def __init__(self, bot, app):
         self.bot = bot
+        if app == config('INFOBOT'):
+            self.essenChannelId = config('ESSENCHANNELID', cast=int)
+            self.essenRoleId = config('ESSENROLEID', cast=int)
+        elif app == config('TEST'):
+            self.essenChannelId = config('ESSENCHANNELIDC', cast=int)
+            self.essenRoleId = config('ESSENROLEIDC', cast=int)
+        self.menuPresenter.start()
+
+    def cog_unload(self):
+        self.menuPresenter.cancel()
 
     @commands.command(aliases=['e'])  # !essen
     async def essen(self, ctx, location='rh', date='heute'):
@@ -46,6 +57,25 @@ class Mensa(commands.Cog):
         meals = parseMeals(data)
         await ctx.send(content=intro, embed=meals)
         print(f'>>> Showed the menu to {ctx.message.author}')
+
+    @tasks.loop(hours=1)
+    async def menuPresenter(self):
+        if checkDatetime() is False:
+            print('>>> no menu presented')
+        else:
+            eChan = self.bot.get_channel(self.essenChannelId)
+            for location in ['rh']:     # insert strana when open again
+                payload = getPayload(location, 'heute')
+                data = getData(payload)
+                intro = f'<@&{self.essenRoleId}>\n' + parseIntro(payload)
+                meals = parseMeals(data)
+                await eChan.send(content=intro, embed=meals)
+                print(f'>>> Showed the menu to @essen ({location})')
+
+    @menuPresenter.before_loop
+    async def before_menuPresenter(self):
+        print('waiting...(menuPresenter)')
+        await self.bot.wait_until_ready()
 
 
 def getPayload(location, date):
@@ -130,7 +160,17 @@ def parseMeals(data):
     return(meals)
 
 
-if __name__ == '__main__':  # for testing purposes only, mensa.py should always be imported as a cog!
+def checkDatetime():
+    now = dt.today()
+    if now.weekday() <= 5:
+        return False
+    elif now.hours() != 8:
+        return False
+    return True
+
+
+# for testing purposes only, mensa.py should always be imported as a cog!
+if __name__ == '__main__':
     payload = {'plan': '1479835489',
                'jahr': '2020',
                'monat': '10',
