@@ -164,7 +164,7 @@ def checkDatetime():
     now = dt.today()
     if now.weekday() <= 5:
         return False
-    elif now.hours() != 8:
+    elif now.hour != 8:
         return False
     return True
 
