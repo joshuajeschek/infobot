@@ -3,7 +3,7 @@ import requests
 import json
 from decouple import config
 from discord.ext import commands, tasks
-from datetime import timedelta, date as dt
+from datetime import timedelta, datetime, date as dt
 from discord import Embed
 from re import compile
 
@@ -161,7 +161,7 @@ def parseMeals(data):
 
 
 def checkDatetime():
-    now = dt.today()
+    now = datetime.now()
     if now.weekday() <= 5:
         return False
     elif now.hour != 8:
