@@ -162,7 +162,7 @@ def parseMeals(data):
 
 def checkDatetime():
     now = datetime.now()
-    if now.weekday() <= 5:
+    if now.weekday() >= 5:
         return False
     elif now.hour != 8:
         return False
