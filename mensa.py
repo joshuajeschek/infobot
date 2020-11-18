@@ -64,9 +64,12 @@ class Mensa(commands.Cog):
             print('>>> no menu presented')
         else:
             eChan = self.bot.get_channel(self.essenChannelId)
-            for location in ['rh']:     # insert strana when open again
+            for location in ['rh', 'strana']:
                 payload = getPayload(location, 'heute')
                 data = getData(payload)
+                if data is False:
+                    print(f'>>> no menu found ({location})')
+                    continue
                 intro = f'<@&{self.essenRoleId}>\n' + parseIntro(payload)
                 meals = parseMeals(data)
                 await eChan.send(content=intro, embed=meals)
