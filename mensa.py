@@ -152,7 +152,7 @@ def parseMeals(data):
     meals.colour = 6982182
     p = compile(r' ?\(.*?\)')
     for meal in data:
-        if meal['@kategorie'] in ['Hinweis', '*Ausverkauft*']:
+        if meal['@kategorie'] in ['Hinweis', '*Ausverkauft*', 'WICHTIG']:
             continue
         if meal['@kategorie'] in categoriemoji.keys():
             meal['@kategorie'] += f' {categoriemoji[meal["@kategorie"]]}'
