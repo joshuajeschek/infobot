@@ -1,0 +1,20 @@
+{
+  "name": "infobot",
+  "version": "1.0.0",
+  "description": "Ein Discordbot, der für den Discordserver der Informatikfakultät Chemnitz zuständig ist.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vanitasboi/infobot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vanitasboi/infobot/issues"
+  },
+  "homepage": "https://github.com/vanitasboi/infobot#readme"
+}
