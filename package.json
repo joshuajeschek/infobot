@@ -2,9 +2,12 @@
   "name": "infobot",
   "version": "1.0.0",
   "description": "Ein Discordbot, der für den Discordserver der Informatikfakultät Chemnitz zuständig ist.",
-  "main": "index.js",
+  "main": "./src/index.js",
+  "type": "commonjs",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./src/index.js H",
+    "dev": "nodemon --trace-warnings ./src/index.js T"
   },
   "repository": {
     "type": "git",
@@ -16,5 +19,16 @@
   "bugs": {
     "url": "https://github.com/vanitasboi/infobot/issues"
   },
-  "homepage": "https://github.com/vanitasboi/infobot#readme"
+  "homepage": "https://github.com/vanitasboi/infobot#readme",
+  "dependencies": {
+    "discord.js": "^12.5.3",
+    "discord.js-commando": "^0.12.3",
+    "dotenv": "^8.2.0",
+    "nodemon": "^2.0.7",
+    "sqlite": "^4.0.21",
+    "sqlite3": "^5.0.2"
+  },
+  "devDependencies": {
+    "eslint": "^7.24.0"
+  }
 }
