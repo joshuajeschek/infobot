@@ -1,10 +1,9 @@
-'use strict';
-const InfoBot = require('./modules/infobot.js');
-require('dotenv').config();
-const { exit } = require('process');
+import InfoBot from './modules/infobot.js';
+import dotenv from 'dotenv';
+dotenv.config();
+import { exit } from 'process';
 
-const config = require ('../config.json');
-
+import config from '../config.json';
 
 const CommandoClient = new InfoBot({
     owner: config.ids.owner,

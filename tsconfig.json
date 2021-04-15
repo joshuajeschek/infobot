@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+      "target": "esnext",
+      "module": "commonjs",
+      "moduleResolution": "node",
+      "strict": true,
+      "watch": true,
+      "resolveJsonModule": true,
+      "esModuleInterop": true,
+      "outDir": "dist"
+    },
+    "include": ["src/**/*"]
+}

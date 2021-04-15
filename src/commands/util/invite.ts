@@ -1,7 +1,8 @@
-const Commando = require('discord.js-commando');
+import { Message } from 'discord.js';
+import { Command, CommandoMessage, CommandoClient } from 'discord.js-commando';
 
-module.exports = class InviteCommand extends Commando.Command {
-    constructor(client) {
+export default class InviteCommand extends Command {
+    public constructor(client: CommandoClient) {
         super(client, {
             name: 'invite',
             aliases: ['i'],
@@ -12,8 +13,8 @@ module.exports = class InviteCommand extends Commando.Command {
         });
     }
 
-    async run(msg) {
+    async run(msg: CommandoMessage): Promise<Message> {
         console.log('>>> invite by', msg.author.tag);
-        msg.reply('Tis be thy invite');
+        return msg.reply('Tis be thy invite');
     }
-};
+}
