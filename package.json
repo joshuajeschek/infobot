@@ -1,6 +1,6 @@
 {
   "name": "infobot",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Ein Discordbot, der für den Discordserver der Informatikfakultät Chemnitz zuständig ist.",
   "main": "./src/index.js",
   "type": "commonjs",
@@ -30,6 +30,7 @@
     "nodemon": "^2.0.7",
     "sqlite": "^4.0.21",
     "sqlite3": "^5.0.2",
+    "systeminformation": "^5.6.12",
     "typescript": "^4.2.4"
   },
   "devDependencies": {
