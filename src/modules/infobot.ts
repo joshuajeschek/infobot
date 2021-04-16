@@ -19,11 +19,11 @@ export default class InfoBot extends Client {
         }
         else if (process.argv[2] == 'P') {
             console.log('Logging in as informatik.bot');
-            this.login(process.env.INFOBOT_TOKEN);
+            this.login(process.env.PROD_TOKEN);
         }
         else if (process.argv[2] == 'D') {
             console.log('Logging in as Chester McTester');
-            this.login(process.env.TESTBOT_TOKEN);
+            this.login(process.env.DEV_TOKEN);
         }
         else {
             console.log(`Invalid app provided. [${process.argv[2]}`);
