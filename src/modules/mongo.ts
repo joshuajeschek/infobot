@@ -17,25 +17,21 @@ export async function mongo(): Promise<typeof mongoose> {
 
 export function compileMongoUrl(): string[] {
     const env = process.argv[2];
-    if (!env) {
-        console.log(`Invalid app provided. [${process.argv[2]}`);
-        exit(1);
-    }
 
-    let url = 'mongodb://localhost:27017/<database>';
-
+    let url = `mongodb://<user>:${process.env.MONGO_PW}@${process.env.MONGO_IP}:27017/<user>`;
     switch (env) {
     // dev
     case 'D':
-        url = url.replace('<database>', 'infobot-dev');
+        url = url.split('<user>').join('infobot-dev');
         return [ url, 'infobot-dev' ];
 
     // prod
     case 'P':
-        url = url.replace('<database>', 'infobot-prod');
+        url = url.split('<user>').join('infobot-prod');
         return [ url, 'infobot-prod' ];
 
     default:
+        console.log(`Invalid app provided. [${process.argv[2]}`);
         exit(1);
     }
 }
