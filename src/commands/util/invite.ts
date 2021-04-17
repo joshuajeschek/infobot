@@ -1,4 +1,4 @@
-import { Message, GuildMember } from 'discord.js';
+import { Message } from 'discord.js';
 import { Command, CommandoMessage, CommandoClient } from 'discord.js-commando';
 import { getInviteLink } from '../modules/invitelink';
 
@@ -18,9 +18,8 @@ export default class InviteCommand extends Command {
         console.log('>>> invite by', msg.author.tag);
         const invite_link = await getInviteLink(msg.guild.id);
         if (!invite_link) {
-            const member = new GuildMember(this.client, msg.author, msg.guild);
-            console.log(member);
-            if (member.hasPermission('CREATE_INSTANT_INVITE')) {
+            const member = msg.guild.member(msg.author);
+            if (member?.hasPermission('CREATE_INSTANT_INVITE')) {
                 return msg.reply('Invite not set. Please set it using the `setInvite` command.');
             }
             else {

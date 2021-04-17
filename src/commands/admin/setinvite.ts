@@ -20,7 +20,7 @@ export default class SetInviteCommand extends Command {
                 {
                     key: 'invite_link',
                     label: 'link',
-                    prompt: 'Which link should be used? Type none to delete the stored invite link.',
+                    prompt: 'Which link should be used? Type `none` to delete the stored invite link.',
                     type: 'string',
                 },
             ],

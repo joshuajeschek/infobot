@@ -64,7 +64,7 @@ export default class InfoBot extends Client {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         this.on('commandError', (cmd, err, _, __, ___) => {
             if (err instanceof FriendlyError) return;
-            console.error(`💬 Error in command ${cmd.groupID}:${cmd.memberName}`);
+            console.error(`💬 Error in command ${cmd.groupID}:${cmd.memberName}`, err);
         });
     }
 }
