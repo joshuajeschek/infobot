@@ -1,3 +1,5 @@
+import EditMessageCommand from './admin/editmessage';
+import SendMessageCommand from './admin/sendmessage';
 import SetInviteCommand from './admin/setinvite';
 import MenuCommand from './mensa/menu';
 import InviteCommand from './util/invite';
@@ -14,4 +16,6 @@ export const commands = [
     SetInviteCommand,
     StatusCommand,
     MenuCommand,
+    SendMessageCommand,
+    EditMessageCommand,
 ];
