@@ -5,7 +5,7 @@ import { MongoDBProvider } from 'commando-provider-mongo';
 import { compileMongoUrl } from './mongo';
 
 /* COMMANDS */
-import commands from './../commands/commands';
+import { commands, groups } from './../commands/commands';
 
 export default class InfoBot extends Client {
     constructor(options: CommandoClientOptions) {
@@ -33,10 +33,7 @@ export default class InfoBot extends Client {
 
     private commandoSetup(): void {
         this.registry
-            .registerGroups([
-                ['util', 'Utility'],
-                ['admin', 'Administration'],
-            ])
+            .registerGroups(groups)
             .registerDefaults()
             .registerCommands(commands);
 

@@ -1,0 +1,102 @@
+[
+    {
+        "query": "today",
+        "result": 0
+    },
+    {
+        "query": "heute",
+        "result": 0
+    },
+    {
+        "query": "h",
+        "result": 0
+    },
+    {
+        "query": "tomorrow",
+        "result": 1
+    },
+    {
+        "query": "morgen",
+        "result": 1
+    },
+    {
+        "query": "m",
+        "result": 1
+    },
+    {
+        "query": "aftertomorrow",
+        "result": 2
+    },
+    {
+        "query": "übermorgen",
+        "result": 2
+    },
+    {
+        "query": "ü",
+        "result": 2
+    },
+    {
+        "query": "yesterday",
+        "result": -1
+    },
+    {
+        "query": "gestern",
+        "result": -1
+    },
+    {
+        "query": "g",
+        "result": -1
+    },
+    {
+        "query": "beforeyesterday",
+        "result": -2
+    },
+    {
+        "query": "vorgestern",
+        "result": -2
+    },
+    {
+        "query": "v",
+        "result": -2
+    },
+    {
+        "query": "monday",
+        "result": 101
+    },
+    {
+        "query": "montag",
+        "result": 101
+    },
+    {
+        "query": "tuesday",
+        "result": 102
+    },
+    {
+        "query": "dienstag",
+        "result": 102
+    },
+    {
+        "query": "wednesday",
+        "result": 103
+    },
+    {
+        "query": "mittwoch",
+        "result": 103
+    },
+    {
+        "query": "thursday",
+        "result": 104
+    },
+    {
+        "query": "donnerstag",
+        "result": 104
+    },
+    {
+        "query": "friday",
+        "result": 105
+    },
+    {
+        "query": "freitag",
+        "result": 105
+    }
+]
