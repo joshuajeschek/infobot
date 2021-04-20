@@ -8,7 +8,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node ./dist/src/index.js P",
     "dev": "nodemon --trace-warnings ./dist/src/index.js D",
-    "devbuild": "tsc -w"
+    "devbuild": "tsc -w",
+    "clean": "Remove-Item tmp/* -Exclude .gitignore"
   },
   "repository": {
     "type": "git",
@@ -30,6 +31,7 @@
     "js-levenshtein": "^1.1.6",
     "mongodb": "^3.6.6",
     "mongoose": "^5.12.3",
+    "node-downloader-helper": "^1.0.18",
     "nodemon": "^2.0.7",
     "systeminformation": "^5.6.12",
     "typescript": "^4.2.4",
@@ -38,6 +40,7 @@
   "devDependencies": {
     "@types/js-levenshtein": "^1.1.0",
     "@types/node": "^14.14.39",
+    "@types/request": "^2.48.5",
     "@types/ws": "^7.4.1",
     "@types/xml2js": "^0.4.8",
     "@typescript-eslint/eslint-plugin": "^4.22.0",
