@@ -1,5 +1,6 @@
-import { Message, TextChannel } from 'discord.js';
+import { Message, MessageEmbed, TextChannel } from 'discord.js';
 import { Command, CommandoClient, CommandoMessage } from 'discord.js-commando';
+import { DownloaderHelper } from 'node-downloader-helper';
 
 interface Args {
     channel: TextChannel,
@@ -35,6 +36,7 @@ export default class EditMessageCommand extends Command {
                     label: 'content',
                     prompt: 'What should the message say?',
                     type: 'string',
+                    default: '',
                 },
             ],
         });
@@ -43,14 +45,54 @@ export default class EditMessageCommand extends Command {
     async run(msg: CommandoMessage, { channel, message_id, content }: Args): Promise<Message | null> {
         console.log('>>> editmessage by', msg.author.tag);
 
-        const message = channel.messages.resolve(message_id);
+        const message = await channel.messages.fetch(message_id);
 
         if (!message) {
+            msg.reply('Couldn\'t find the message.');
             msg.react('❌');
             return null;
         }
 
-        msg.react('✅');
-        return message.edit(content);
+        if (content === '' && msg.attachments.size === 0) {
+            msg.reply('cannot send an empty message!');
+            return null;
+        }
+
+        if (msg.attachments.size != 0) {
+            const url = msg.attachments.first()?.url;
+            const is_json = msg.attachments.first()?.name?.endsWith('.json');
+            if (!url || !is_json) {
+                msg.react('❌');
+                msg.reply('Couldn\'t process the attachment.');
+                return null;
+            }
+
+            const download = new DownloaderHelper(url, 'tmp', {
+                override: true,
+            });
+
+            download.on('end', async () => {
+                const json_path = download.getDownloadPath().replace('\\', '/');
+                import('./../../../' + json_path)
+                    .then(embed => {
+                        msg.react('✅');
+                        message.edit(content, new MessageEmbed(embed));
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        msg.react('❌');
+                        msg.reply('Couldn\'t download the attachment.');
+                    });
+            });
+
+            download.start();
+
+        }
+        else {
+            msg.react('✅');
+            return message.edit(content);
+        }
+
+        return null;
     }
 }
