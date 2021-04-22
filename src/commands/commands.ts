@@ -1,3 +1,4 @@
+import AutoReactCommand from './admin/autoreact';
 import EditMessageCommand from './admin/editmessage';
 import SendMessageCommand from './admin/sendmessage';
 import SetInviteCommand from './admin/setinvite';
@@ -18,4 +19,5 @@ export const commands = [
     MenuCommand,
     SendMessageCommand,
     EditMessageCommand,
+    AutoReactCommand,
 ];

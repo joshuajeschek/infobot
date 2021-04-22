@@ -6,12 +6,14 @@ import { compileMongoUrl } from './mongo';
 
 /* COMMANDS */
 import { commands, groups } from './../commands/commands';
+import { refreshAutoReactors } from './autoreactmanager';
 
 export default class InfoBot extends Client {
     constructor(options: CommandoClientOptions) {
         super(options);
         this.commandoSetup();
         this.discordListeners();
+        refreshAutoReactors(this);
 
         if (process.argv.length < 2) {
             console.log('Please specify an application [H/T]');
