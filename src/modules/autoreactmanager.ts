@@ -11,8 +11,15 @@ export interface AutoReactChannel {
     _v?: number,
 }
 
+/**
+ * All currently active MessageCollectors (ar_channels)
+ */
 const auto_reactors: Map<string, MessageCollector> = new Map();
 
+/**
+ * Sets an AutoReactChannel for a guild in the database
+ * refresh still needed!
+ */
 export async function setAutoReactChannel(ar_channel:AutoReactChannel): Promise<boolean> {
     const result = await mongo().then(async (mongoose) => {
         try {
@@ -38,6 +45,10 @@ export async function setAutoReactChannel(ar_channel:AutoReactChannel): Promise<
     return false;
 }
 
+/**
+ * Get all AutoReactChannels for a certain guild,
+ * when no ID ist specified, all entries are returned.
+ */
 export async function getAutoReactChannels(guild_id?:string): Promise<AutoReactChannel[]> {
     if (guild_id) {
         return await mongo().then(async (mongoose) => {
@@ -62,6 +73,9 @@ export async function getAutoReactChannels(guild_id?:string): Promise<AutoReactC
     });
 }
 
+/**
+ * Deletes an AutoReactChannel from the database
+ */
 export async function deleteAutoReactChannel(guild_id:string, channel_id:string): Promise<boolean> {
     const result = await mongo().then(async (mongoose) => {
         try {
@@ -79,6 +93,10 @@ export async function deleteAutoReactChannel(guild_id:string, channel_id:string)
     return false;
 }
 
+/**
+ * Refresh a single AutoReactChannel, or all (at startup)
+ * can also stop a single ar_channel (e.g. when deleted)
+ */
 export async function refreshAutoReactors(client:Client, ar_channel?:AutoReactChannel, stop?:boolean): Promise<void> {
     if (ar_channel) {
         const old_collector = auto_reactors.get(ar_channel.guild_id + ar_channel.channel_id);
