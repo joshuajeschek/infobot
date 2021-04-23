@@ -1,3 +1,4 @@
+import AutoExecCommand from './admin/autoexec';
 import AutoReactCommand from './admin/autoreact';
 import EditMessageCommand from './admin/editmessage';
 import SendMessageCommand from './admin/sendmessage';
@@ -20,4 +21,5 @@ export const commands = [
     SendMessageCommand,
     EditMessageCommand,
     AutoReactCommand,
+    AutoExecCommand,
 ];
