@@ -16,7 +16,7 @@ export async function getMenu(location:string, date:Date):Promise<Menu> {
         id = '1479835489';
     }
     else {
-        id = '1';
+        id = '773823070';
     }
     const url = `https://www.swcz.de/bilderspeiseplan/xml.php?plan=${id}` +
         `&jahr=${date.getFullYear()}` +
