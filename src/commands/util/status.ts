@@ -3,7 +3,7 @@ import { Message, MessageEmbed } from 'discord.js';
 import { Command, CommandoClient, CommandoMessage } from 'discord.js-commando';
 
 import status_embed from './resources/status-embed.json';
-import { version } from '../../../package.json';
+import { version, homepage, bugs } from '../../../package.json';
 
 let osInfo: string;
 
@@ -67,7 +67,9 @@ export default class StatusCommand extends Command {
             .addField('ping: ', ping)
             .addField('uptime: ', convertUptime(this.client.uptime))
             .addField('running on:', await getOsInfo())
-            .addField('bot version:', version);
+            .addField('bot version:', version)
+            .addField('GitHub:', homepage)
+            .addField('report bugs and request features: ', bugs.url);
 
         return msg.reply(embed);
     }
