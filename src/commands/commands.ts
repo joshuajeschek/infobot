@@ -1,6 +1,7 @@
 import AutoExecCommand from './admin/autoexec';
 import AutoReactCommand from './admin/autoreact';
 import EditMessageCommand from './admin/editmessage';
+import ReactionRoleCommand from './admin/reactionrole';
 import SendMessageCommand from './admin/sendmessage';
 import SetInviteCommand from './admin/setinvite';
 import MenuCommand from './mensa/menu';
@@ -22,4 +23,5 @@ export const commands = [
     EditMessageCommand,
     AutoReactCommand,
     AutoExecCommand,
+    ReactionRoleCommand,
 ];

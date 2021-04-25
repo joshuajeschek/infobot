@@ -8,14 +8,13 @@ import { compileMongoUrl } from './mongo';
 import { commands, groups } from './../commands/commands';
 import { refreshAutoReactors } from './autoreactmanager';
 import { refreshAutoExecs } from './autoexecmanager';
+import { refreshReactionRoles } from './reactionroles/reactionrolemanager';
 
 export default class InfoBot extends Client {
     constructor(options: CommandoClientOptions) {
         super(options);
         this.commandoSetup();
         this.discordListeners();
-        refreshAutoReactors(this);
-        refreshAutoExecs(this);
 
         if (process.argv.length < 2) {
             console.log('Please specify an application [H/T]');
@@ -33,6 +32,12 @@ export default class InfoBot extends Client {
             console.log(`Invalid app provided. [${process.argv[2]}`);
             exit(1);
         }
+    }
+
+    private async refresh() {
+        await refreshAutoReactors(this);
+        await refreshAutoExecs(this);
+        await refreshReactionRoles(this);
     }
 
     private commandoSetup(): void {
@@ -53,12 +58,11 @@ export default class InfoBot extends Client {
 
     private discordListeners(): void {
         this.once('ready', () => {
-            if (this.user) {
-                console.log(`✅ Logged in as ${this.user.tag}`);
-                this.user.setActivity('Prefix: !', {
-                    type: 'WATCHING',
-                });
-            }
+            console.log(`✅ Logged in as ${this.user?.tag}`);
+            this.user?.setActivity('Prefix: !', {
+                type: 'WATCHING',
+            });
+            this.refresh();
         });
 
         /* Friendly Error Logging */
