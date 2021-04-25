@@ -14,7 +14,7 @@ export default class SetInviteCommand extends Command {
             memberName: 'setinvite',
             description: 'Set the invite that will be presented through the `invite` command. Use `none` as parameter, to delete the stored invite.',
             examples: ['setinvite discord.gg/foobar', 'setinvite none'],
-            userPermissions: ['CREATE_INSTANT_INVITE'],
+            userPermissions: ['ADMINISTRATOR'],
             guildOnly: true,
             args: [
                 {
