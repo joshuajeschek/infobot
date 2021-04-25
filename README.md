@@ -12,22 +12,22 @@ Please keep in mind that this is my first project with TypeScript, in case you s
 ***
 
 ## Commands
-1. [Mensa](#mensa)
-1.1 [menu](#menu)
+1. [Mensa](#mensa)  
+    1.1 [menu](#menu)
 
-2. [Utility](#utility)
-2.1 [status](#status)
-2.2 [invite](#invite)
-2.3 [ping](#ping)
-2.4 [help](#help)
+2. [Utility](#utility)  
+    2.1 [status](#status)  
+    2.2 [invite](#invite)  
+    2.3 [ping](#ping)  
+    2.4 [help](#help)  
 
-3. [Admin](#admin)
-3.1 [setinvite](#setinivte)
-3.2 [sendmessage](#sendmessage)
-3.3 [editmessage](#editmessage)
-3.4 [autoreact](#autoreact)
-3.5 [autoexec](#autoexec)
-3.6 [reactionrole](#reactionrole)
+3. [Admin](#admin)  
+    3.1 [setinvite](#setinivte)  
+    3.2 [sendmessage](#sendmessage)  
+    3.3 [editmessage](#editmessage)  
+    3.4 [autoreact](#autoreact)  
+    3.5 [autoexec](#autoexec)  
+    3.6 [reactionrole](#reactionrole)  
 
 ### Mensa
 #### menu
@@ -36,13 +36,13 @@ Please keep in mind that this is my first project with TypeScript, in case you s
 The menu for the requested day and location is fetched and presented. When no parameters are provided, the location defaults to `reichenhainer` and date to `today`.
 
 **examples:**
-> `!menu`
-`!menu reichenhainer today`
-`!menu strana gestern`
-`!menu r 12.10.2016`
+> `!menu`  
+`!menu reichenhainer today`  
+`!menu strana gestern`  
+`!menu r 12.10.2016`  
 
 **arguments:**
-> `<location>` - `reichenhainer, strana, r, s`
+> `<location>` - `reichenhainer, strana, r, s`  
 `<date>` - `today, tomorrow, heute, gestern, yesterday...` (or any date as numbers separated by "." )
 
 ### Utility
