@@ -127,18 +127,20 @@ export function compileMenuEmbed(menu:Menu): MessageEmbed {
 }
 
 export async function autoMenu(client:Client, guild_id:string, channel_id:string, content?:string): Promise<void> {
-    const r_menu = await getMenu('reichenhainer', new Date());
-    const s_menu = await getMenu('strana', new Date());
 
-    const embeds:MessageEmbed[] = [];
-    if (r_menu.meals.length > 0) embeds.push(compileMenuEmbed(r_menu));
-    if (s_menu.meals.length > 0) embeds.push(compileMenuEmbed(s_menu));
-
-    if (embeds.length === 0) return;
+    const menus = [
+        await getMenu('reichenhainer', new Date()),
+        await getMenu('strana', new Date()),
+    ];
 
     const channel = new TextChannel(new Guild(client, { id: guild_id }), { id: channel_id });
-    for (let i = 0; i < embeds.length; i++) {
-        channel.send(`${i === 0 ? content : ''}`, embeds[i]);
+    for (let i = 0; i < menus.length; i++) {
+        if (menus[i].meals.length != 0) {
+            const msg = await channel.send(`${i === 0 ? (content ? content : '') : ''}`, compileMenuEmbed(menus[i]));
+            for (let j = 0; j < menus[i].meals.length; j++) {
+                msg.react(numbers[j]);
+            }
+        }
     }
 
 }
