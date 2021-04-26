@@ -46,6 +46,7 @@ export class ReactionRole {
             console.log('guild / channel / message deleted?', rr_data._id);
         }
 
+        this.client.setMaxListeners(this.client.getMaxListeners() + 2);
         this.client.on('messageReactionAdd', this.giveRole);
         this.client.on('messageReactionRemove', this.removeRole);
     }
@@ -110,6 +111,7 @@ export class ReactionRole {
     public end(): void {
         this.client.removeListener('messageReactionAdd', this.giveRole);
         this.client.removeListener('messageReactionRemove', this.removeRole);
+        this.client.setMaxListeners(this.client.getMaxListeners() - 2);
         this.message?.reactions.cache.get(this.emoji)?.users.remove(this.client.user?.id);
     }
 
