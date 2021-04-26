@@ -1,7 +1,8 @@
 import { parseExpression } from 'cron-parser';
 import { Command, CommandoClient, CommandoMessage } from 'discord.js-commando';
-import { Channel, Message, MessageEmbed, MessageReaction, User } from 'discord.js';
+import { Channel, Message, MessageEmbed } from 'discord.js';
 import { AutoExec, deleteAutoExec, getAutoExecs, refreshAutoExecs, setAutoExec } from '../../modules/autoexecmanager';
+import getConfirmation from '../../modules/util/confirmation';
 
 interface Args {
     channel: Channel | false,
@@ -56,7 +57,7 @@ export default class AutoExecCommand extends Command {
     async run(msg: CommandoMessage, { channel, type, cron_expression, content }:Args): Promise<Message | null> {
         console.log('>>> autoexec by', msg.author.tag);
 
-        // LIST ALL AUTO EXECS IN GUILD
+        // #region LIST ALL
         if (!channel) {
             const result = await getAutoExecs(msg.guild.id);
             const embed = new MessageEmbed({ title: 'Currently active autoexecs: ' });
@@ -66,6 +67,7 @@ export default class AutoExecCommand extends Command {
             });
             return msg.reply(embed);
         }
+        // #endregion LIST ALL
 
         // TYPE RECOGINITION
         if (!type) {
@@ -75,39 +77,24 @@ export default class AutoExecCommand extends Command {
             return msg.reply('Type not recognized');
         }
 
-        // DELETE AUTO EXEC
+        // #region DELETE
         if (!cron_expression) {
-            const filter = (reaction:MessageReaction, user:User) => {
-                return ['✅', '❌'].includes(reaction.emoji.name) && user.id === msg.author.id;
-            };
+            const confimation = await getConfirmation(msg, `disable the auto exec ${type} in the channel ${channel}?`);
 
-            const decider_msg = await msg.reply(`Disable the auto exec ${type} in the channel ${channel}? React with the corresponding emoji.`);
-            decider_msg.react('✅');
-            decider_msg.react('❌');
-
-            const collector = decider_msg.createReactionCollector(filter, { time: 30 * 6 * 1000 });
-
-            collector.on('collect', async (reaction) => {
-                if (reaction.emoji.name === '❌') {
-                    collector.stop('abort');
+            if (confimation) {
+                const success = await deleteAutoExec(msg.guild.id, channel.id, type);
+                if (success) {
+                    refreshAutoExecs(this.client, { guild_id: msg.guild.id, channel_id: channel.id, type, cron_expression: '' }, true);
+                    msg.react('✅');
                 }
-                else {
-                    collector.stop('confirm');
-                    const success = await deleteAutoExec(msg.guild.id, channel.id, type);
-                    if (success) {
-                        refreshAutoExecs(this.client, { guild_id: msg.guild.id, channel_id: channel.id, type, cron_expression: '' }, true);
-                        msg.react('✅');
-                    }
-                    else {msg.react('❌');}
-                }
-            });
+                else {msg.react('❌');}
+                return null;
+            }
 
-            collector.on('end', (_, reason) => {
-                if (reason != 'confirm') msg.react('❌');
-            });
-
+            msg.react('❌');
             return null;
         }
+        // #endregion DELETE
 
         // CHECK IF CRON IS VALID
         let parsed_cron;

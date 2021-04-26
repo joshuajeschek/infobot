@@ -1,6 +1,6 @@
 import { Message } from 'discord.js';
 import { Command, CommandoMessage, CommandoClient } from 'discord.js-commando';
-import { getInviteLink } from '../modules/invitelink';
+import { getInviteLink } from '../../modules/invitelink';
 
 export default class InviteCommand extends Command {
     public constructor(client: CommandoClient) {

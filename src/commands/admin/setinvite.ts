@@ -1,5 +1,5 @@
 import { Command, CommandoClient, CommandoMessage } from 'discord.js-commando';
-import { removeInviteLink, setInviteLink } from '../modules/invitelink';
+import { removeInviteLink, setInviteLink } from '../../modules/invitelink';
 
 interface Args {
     invite_link: string;

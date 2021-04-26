@@ -1,6 +1,7 @@
-import { Channel, Emoji, GuildEmoji, Message, MessageEmbed, MessageReaction, User } from 'discord.js';
+import { Channel, Emoji, GuildEmoji, Message, MessageEmbed } from 'discord.js';
 import { Command, CommandoClient, CommandoMessage } from 'discord.js-commando';
 import { AutoReactChannel, deleteAutoReactChannel, getAutoReactChannels, refreshAutoReactors, setAutoReactChannel } from '../../modules/autoreactmanager';
+import getConfirmation from '../../modules/util/confirmation';
 
 interface Args {
     channel: Channel | false,
@@ -49,8 +50,7 @@ export default class AutoReactCommand extends Command {
     async run(msg: CommandoMessage, { channel, media_only, emojis }: Args): Promise<Message | null> {
         console.log('>>> autoreact by', msg.author.tag);
 
-
-        /* LIST CHANNELS */
+        // #region LIST ALL
         if (!channel) {
             const results = await getAutoReactChannels(msg.guild.id);
             const embed = new MessageEmbed({ title: 'Currently active auto react channels:' });
@@ -77,44 +77,27 @@ export default class AutoReactCommand extends Command {
             if (results.length === 0) embed.setDescription('No active auto react channels found');
             return msg.reply(embed);
         }
+        // #endregion LIST ALL
 
-        /* DELETE CHANNEL */
+        // #region DELETE AR CHANNEL
         if (!emojis) {
-            const filter = (reaction:MessageReaction, user:User) => {
-                return ['✅', '❌'].includes(reaction.emoji.name) && user.id === msg.author.id;
-            };
+            const confimation = await getConfirmation(msg, `disable the auto reaction channel ${channel}?`);
 
-            const decider_msg = await msg.reply(`Disable the auto reaction channel ${channel}? React with the corresponding emoji.`);
-            decider_msg.react('✅');
-            decider_msg.react('❌');
-
-            const collector = decider_msg.createReactionCollector(filter, { time: 30 * 6 * 1000 });
-
-            collector.on('collect', async (reaction) => {
-                if (reaction.emoji.name === '❌') {
-                    collector.stop('abort');
+            if (confimation) {
+                const success = await deleteAutoReactChannel(msg.guild.id, channel.id);
+                if (success) {
+                    refreshAutoReactors(this.client, { guild_id: msg.guild.id, channel_id: channel.id, emojis: [] }, true);
+                    msg.react('✅');
                 }
-                else {
-                    collector.stop('confirm');
-                    const success = await deleteAutoReactChannel(msg.guild.id, channel.id);
-                    if (success) {
-                        refreshAutoReactors(this.client, { guild_id: msg.guild.id, channel_id: channel.id, emojis: [] }, true);
-                        msg.react('✅');
-                    }
-                    else {msg.react('❌');}
-                }
-            });
-
-            collector.on('end', (_, reason) => {
-                if (reason != 'confirm') msg.react('❌');
-            });
-
+                else {msg.react('❌');}
+                return null;
+            }
+            msg.react('❌');
             return null;
         }
-
+        // #endregion DELETE AR CHANNEL
 
         /* ADD CHANNEL */
-
         const ar_channel:AutoReactChannel = {
             guild_id: msg.guild.id,
             channel_id: channel.id,

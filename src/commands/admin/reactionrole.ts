@@ -1,45 +1,14 @@
-import { Emoji, Message, MessageEmbed, MessageReaction, Role, TextChannel, User } from 'discord.js';
+import { Emoji, Message, MessageEmbed, Role, TextChannel } from 'discord.js';
 import { Command, CommandoClient, CommandoMessage } from 'discord.js-commando';
 import { deleteReactionRole, getReactionRole, refreshReactionRoles, setReactionRole } from '../../modules/reactionroles/reactionrolemanager';
 import { ReactionRoleData } from '../../modules/reactionroles/reactionroles';
+import getConfirmation from '../../modules/util/confirmation';
 
 interface Args {
     channel: TextChannel,
     message: Message,
     role: Role,
     reaction: Emoji,
-}
-
-/**
- * asks the user for confirmation on something, bound to a message
- */
-async function getConfirmation(msg:Message, prompt:string): Promise<boolean> {
-    const filter = (r:MessageReaction, u:User) => {
-        return u.equals(msg.author) && ['✅', '❌'].includes(r.emoji.toString());
-    };
-    const decider = await msg.reply(prompt);
-    decider.react('✅');
-    decider.react('❌');
-
-    const collector = decider.createReactionCollector(filter, { time: 30 * 1000 });
-    return new Promise((resolve, reject) => {
-        collector.on('collect', r => {
-            if (r.emoji.toString() === '✅') {
-                collector.stop('confirm');
-                msg.react('✅');
-                resolve(true);
-            }
-            else { resolve(false); }
-        });
-        collector.on('end', (_, reason) => {
-            if (reason != 'confirm') {
-                msg.react('❌');
-            }
-        });
-        setTimeout(() => {
-            reject('Timeout');
-        }, 60 * 1000);
-    });
 }
 
 export default class ReactionRoleCommand extends Command {
@@ -88,7 +57,7 @@ export default class ReactionRoleCommand extends Command {
     async run(msg: CommandoMessage, { channel, message, role, reaction }:Args): Promise<Message | null> {
         console.log('>>> reactionrole by', msg.author.tag);
 
-        /* LIST ALL */
+        // #region LIST ALL
         if (!channel) {
             const result = await getReactionRole(msg.guild.id);
             const embed = new MessageEmbed({ title: 'Currently active ReactionRoles:' });
@@ -102,10 +71,11 @@ export default class ReactionRoleCommand extends Command {
             msg.channel.send(embed);
             return null;
         }
+        // #endregion LIST ALL
+
+        // #region DELETE ALL OF CHANNEL
         if (!message) {
-            /* DELETE ALL OF CHANNEL */
-            const choice = await getConfirmation(msg, `Delete all reaction roles in ${channel}?`)
-                .catch(err => console.log(err));
+            const choice = await getConfirmation(msg, `Delete all reaction roles in ${channel}?`);
             if (choice) {
                 const success = await deleteReactionRole(msg.guild.id, channel.id);
                 if (success) {
@@ -118,10 +88,11 @@ export default class ReactionRoleCommand extends Command {
             msg.react('❌');
             return null;
         }
+        // #endregion DELETE ALL OF CHANNEL
+
+        // #region DELETE ALL OF MESSAGE
         if (!role) {
-            /* DELETE ALL REACTIONROLES OF MESSAGE */
-            const choice = await getConfirmation(msg, `Delete all reaction roles of message ${message.id} in ${channel}?`)
-                .catch(err => console.log(err));
+            const choice = await getConfirmation(msg, `Delete all reaction roles of message ${message.id} in ${channel}?`);
             if (choice) {
                 const success = await deleteReactionRole(msg.guild.id, channel.id, message.id);
                 if (success) {
@@ -134,10 +105,11 @@ export default class ReactionRoleCommand extends Command {
             msg.react('❌');
             return null;
         }
+        // #endregion DELETE ALL OF MESSAGE
+
+        // #region DELETE SINGLE ROLEREACTION
         if (!reaction) {
-            /* DELETE  REACTIONROLE */
-            const choice = await getConfirmation(msg, `Delete reaction role ${role} of message ${message.id} in ${channel}?`)
-                .catch(err => console.log(err));
+            const choice = await getConfirmation(msg, `Delete reaction role ${role} of message ${message.id} in ${channel}?`);
             if (choice) {
                 const success = await deleteReactionRole(msg.guild.id, channel.id, message.id, role.id);
                 if (success) {
@@ -150,6 +122,7 @@ export default class ReactionRoleCommand extends Command {
             msg.react('❌');
             return null;
         }
+        // #endregion DELETE SINGLE ROLEREACTION
 
         const rr_data: ReactionRoleData = {
             guild_id: msg.guild.id,

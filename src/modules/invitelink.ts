@@ -1,5 +1,5 @@
-import { mongo } from '../../modules/mongo';
-import { inviteLinkSchema } from '../../schemas/invitelink-schema';
+import { mongo } from './mongo';
+import { inviteLinkSchema } from '../schemas/invitelink-schema';
 
 const invite_link_cache = new Map();
 
