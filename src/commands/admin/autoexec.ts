@@ -1,8 +1,9 @@
-import { parseExpression } from 'cron-parser';
-import { Command, CommandoClient, CommandoMessage } from 'discord.js-commando';
+import { time } from 'cron';
 import { Channel, Message, MessageEmbed } from 'discord.js';
-import { AutoExec, deleteAutoExec, getAutoExecs, refreshAutoExecs, setAutoExec } from '../../modules/autoexecmanager';
+import { Command, CommandoClient, CommandoMessage } from 'discord.js-commando';
+
 import getConfirmation from '../../modules/util/confirmation';
+import { AutoExec, deleteAutoExec, getAutoExecs, refreshAutoExecs, setAutoExec } from '../../modules/autoexecmanager';
 
 interface Args {
     channel: Channel | false,
@@ -97,8 +98,7 @@ export default class AutoExecCommand extends Command {
         // #endregion DELETE
 
         // CHECK IF CRON IS VALID
-        let parsed_cron;
-        try { parsed_cron = parseExpression(cron_expression); }
+        try { time(cron_expression); }
         catch (err) {
             console.log(err);
             return msg.reply('Couldn\'t parse the cron expression. Please take a look at https://crontab.guru/');
@@ -114,9 +114,17 @@ export default class AutoExecCommand extends Command {
 
         const success = await setAutoExec(autoexec);
         if (success) {
+            const next_dates = await refreshAutoExecs(this.client, autoexec);
+            if (!next_dates) return msg.channel.send('Next runtime could not be parsed.');
+
             msg.react('✅');
-            refreshAutoExecs(this.client, autoexec);
-            return msg.channel.send('Next execution: ' + parsed_cron.next().toISOString());
+
+            let next_dates_string = '';
+            next_dates.forEach(date => {
+                next_dates_string += '\t' + date.toLocaleString() + '\n';
+            });
+
+            return msg.channel.send('Next runtimes:\n' + next_dates_string);
         }
 
         msg.react('❌');

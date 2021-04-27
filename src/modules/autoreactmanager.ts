@@ -129,5 +129,6 @@ export async function refreshAutoReactors(client:Client, ar_channel?:AutoReactCh
 
     const ar_channels = await getAutoReactChannels();
     ar_channels.forEach(entry => refreshAutoReactors(client, entry));
+    console.log('🚗 reloaded autoreact channels');
     return;
 }
