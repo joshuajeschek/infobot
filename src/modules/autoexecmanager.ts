@@ -101,7 +101,7 @@ export async function deleteAutoExec(guild_id:string, channel_id:string, type:st
  * Refresh a single AutoExec, or all (at startup)
  * can also stop a single ae (e.g. when deleted)
  */
-export async function refreshAutoExecs(client:Client, ae?:AutoExec, stop?:boolean): Promise<void> {
+export async function refreshAutoExecs(client:Client, ae?:AutoExec, stop?:boolean): Promise<undefined | Date[]> {
     if (ae) {
         const old_job = auto_execs.get(ae.guild_id + ae.channel_id + ae.type);
         old_job?.stop();
@@ -109,13 +109,20 @@ export async function refreshAutoExecs(client:Client, ae?:AutoExec, stop?:boolea
         if (stop) return;
 
         const new_job = new CronJob(ae.cron_expression, () => autoMenu(client, ae.guild_id, ae.channel_id, ae.msg_content));
+        auto_execs.set(ae.guild_id + ae.channel_id + ae.type, new_job);
         new_job.start();
 
-        auto_execs.set(ae.guild_id + ae.channel_id + ae.type, new_job);
-        return;
+        const next_moments = new_job.nextDates(5);
+
+        if (Array.isArray(next_moments)) {
+            return next_moments.map(moment => moment.toDate());
+
+        }
+        return [ next_moments.toDate() ];
     }
 
     const ae_s = await getAutoExecs();
     ae_s.forEach(entry => refreshAutoExecs(client, entry));
+    console.log('▶ Refreshed autoexecs');
     return;
 }
