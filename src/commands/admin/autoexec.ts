@@ -80,7 +80,7 @@ export default class AutoExecCommand extends Command {
 
         // #region DELETE
         if (!cron_expression) {
-            const confimation = await getConfirmation(msg, `disable the auto exec ${type} in the channel ${channel}?`);
+            const confimation = await getConfirmation(msg, msg.author.id, `disable the auto exec ${type} in the channel ${channel}?`);
 
             if (confimation) {
                 const success = await deleteAutoExec(msg.guild.id, channel.id, type);
