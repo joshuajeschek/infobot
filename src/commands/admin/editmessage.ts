@@ -1,6 +1,6 @@
 import { Message, MessageEmbed, TextChannel } from 'discord.js';
 import { Command, CommandoClient, CommandoMessage } from 'discord.js-commando';
-import { DownloaderHelper } from 'node-downloader-helper';
+import { downloadJSON } from '../../modules/util/download_attachment';
 
 interface Args {
     channel: TextChannel,
@@ -59,34 +59,20 @@ export default class EditMessageCommand extends Command {
         }
 
         if (msg.attachments.size != 0) {
-            const url = msg.attachments.first()?.url;
-            const is_json = msg.attachments.first()?.name?.endsWith('.json');
-            if (!url || !is_json) {
-                msg.react('❌');
-                msg.reply('Couldn\'t process the attachment.');
-                return null;
-            }
-
-            const download = new DownloaderHelper(url, 'tmp', {
-                override: true,
+            downloadJSON(msg).then(async (json) => {
+                if (!json) {
+                    msg.react('❌');
+                    return msg.reply('Couldn\'t download the attachment.');
+                }
+                try {
+                    await message.edit(content, new MessageEmbed(json));
+                    msg.react('✅');
+                }
+                catch (e) {
+                    msg.react('❌');
+                    msg.channel.send('Couldn\'t edit the message: `' + e + '`');
+                }
             });
-
-            download.on('end', async () => {
-                const json_path = download.getDownloadPath().replace('\\', '/');
-                import('./../../../' + json_path)
-                    .then(embed => {
-                        msg.react('✅');
-                        message.edit(content, new MessageEmbed(embed));
-                    })
-                    .catch(err => {
-                        console.log(err);
-                        msg.react('❌');
-                        msg.reply('Couldn\'t download the attachment.');
-                    });
-            });
-
-            download.start();
-
         }
         else {
             msg.react('✅');
