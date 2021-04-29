@@ -1,0 +1,52 @@
+{
+  "name": "infobot",
+  "version": "2.0.1",
+  "description": "Ein Discordbot, der für den Discordserver der Informatikfakultät Chemnitz zuständig ist.",
+  "main": "./src/index.js",
+  "type": "commonjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./dist/src/index.js P",
+    "dev": "nodemon --trace-warnings ./dist/src/index.js D",
+    "devbuild": "tsc -w",
+    "clean": "Remove-Item tmp/* -Exclude .gitignore"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vanitasboi/infobot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vanitasboi/infobot/issues"
+  },
+  "homepage": "https://github.com/vanitasboi/infobot#readme",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "commando-provider-mongo": "^2.1.0",
+    "cron": "^1.8.2",
+    "discord.js": "^12.5.3",
+    "discord.js-commando": "^0.12.3",
+    "dotenv": "^8.2.0",
+    "js-levenshtein": "^1.1.6",
+    "mongodb": "^3.6.6",
+    "mongoose": "^5.12.3",
+    "node-downloader-helper": "^1.0.18",
+    "nodemon": "^2.0.7",
+    "systeminformation": "^5.6.12",
+    "typescript": "^4.2.4",
+    "xml2js": "^0.4.23"
+  },
+  "devDependencies": {
+    "@types/cron": "^1.7.2",
+    "@types/js-levenshtein": "^1.1.0",
+    "@types/node": "^14.14.39",
+    "@types/request": "^2.48.5",
+    "@types/ws": "^7.4.1",
+    "@types/xml2js": "^0.4.8",
+    "@typescript-eslint/eslint-plugin": "^4.22.0",
+    "@typescript-eslint/parser": "^4.22.0",
+    "eslint": "^7.24.0"
+  }
+}
