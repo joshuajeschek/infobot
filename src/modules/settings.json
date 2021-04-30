@@ -1,3 +1,6 @@
 {
-    "translatable-emoji": ""
+    "translatable_emoji": "",
+    "protected": {
+        "auto_vc_enabled": []
+    }
 }

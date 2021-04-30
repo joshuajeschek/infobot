@@ -4,7 +4,7 @@ import { Message, MessageEmbed, MessageEmbedOptions, MessageReaction, PartialUse
 import { Client, CommandoGuild } from 'discord.js-commando';
 import getConfirmation from './util/confirmation';
 import { downloadJSON } from './util/download_attachment';
-import def_settings from './settings.json';
+import { translatable_emoji } from './settings.json';
 
 interface Translatable {
     message_id: string,
@@ -131,7 +131,7 @@ export function startTranslatableManager(client:Client): void {
         if (!r.message.guild) return;
 
         const emoji = (r.message.guild as CommandoGuild)
-            .settings.get('translatable-emoji', def_settings['translatable-emoji']);
+            .settings.get('translatable_emoji', translatable_emoji);
 
         if (!(r.emoji.toString() === emoji)) return;
 
@@ -153,7 +153,7 @@ export function startTranslatableManager(client:Client): void {
 
         if (!r.message.guild) return;
         const emoji = (r.message.guild as CommandoGuild)
-            .settings.get('translatable-emoji', def_settings['translatable-emoji']);
+            .settings.get('translatable_emoji', translatable_emoji);
 
         if (r.emoji.toString() === emoji && u.id == client.user?.id) {
             deleteTranslatable(r.message.id);

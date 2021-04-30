@@ -4,7 +4,7 @@ import def_settings from '../../modules/settings.json';
 import getConfirmation from '../../modules/util/confirmation';
 
 interface Args {
-    key: 'translatable-emoji',
+    key: 'translatable_emoji',
     value: string | number | boolean,
 }
 
@@ -16,7 +16,7 @@ export default class SettingsCommand extends Command {
             group: 'admin',
             memberName: 'settings',
             description: 'Get / Set settings',
-            examples: ['set translatable-emoji 🗣'],
+            examples: ['set translatable_emoji 🗣'],
             args: [
                 {
                     key: 'key',
@@ -43,6 +43,7 @@ export default class SettingsCommand extends Command {
             const embed = new MessageEmbed({ title: 'Current settings in this guild:', color: '#005F50' })
                 .setTimestamp();
             for (const [ k, v ] of Object.entries(def_settings)) {
+                if (k === 'protected') continue;
                 embed.addField(k, await msg.guild.settings.get(k, v) || 'undefined');
             }
             return msg.channel.send(embed);
