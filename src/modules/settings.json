@@ -1,5 +1,6 @@
 {
     "translatable_emoji": "",
+    "auto_vc_cooldown": 10,
     "protected": {
         "auto_vc_enabled": []
     }
