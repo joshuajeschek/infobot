@@ -21,6 +21,7 @@ export default class ReactionRoleCommand extends Command {
             description: 'Create reaction roles, bound to messages',
             examples: ['reactionrole #getroles 53917 @happy 😀'],
             userPermissions: ['ADMINISTRATOR'],
+            guildOnly: true,
             args: [
                 {
                     key: 'channel',

@@ -64,8 +64,12 @@ export default class VoiceChannelCommand extends Command {
             group: 'channels',
             memberName: 'voicechannel',
             description: 'Create a self-destructing voice channel, with a name you can choose',
-            examples: ['voicechannel foobar'],
+            examples: ['voicechannel serious talks'],
             guildOnly: true,
+            throttling: {
+                duration: 30 * 60,
+                usages: 3,
+            },
             args: [
                 {
                     key: 'name',

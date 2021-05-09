@@ -17,6 +17,8 @@ export default class SettingsCommand extends Command {
             memberName: 'settings',
             description: 'Get / Set settings',
             examples: ['set translatable_emoji 🗣'],
+            userPermissions: ['ADMINISTRATOR'],
+            guildOnly: true,
             args: [
                 {
                     key: 'key',

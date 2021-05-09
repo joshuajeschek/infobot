@@ -22,6 +22,7 @@ export default class AutoExecCommand extends Command {
             description: 'Registers / deletes / lists autoexec jobs',
             examples: ['autoexec #general menu "5 4 * * sun" This is the menu:'],
             userPermissions: ['ADMINISTRATOR'],
+            guildOnly: true,
             args: [
                 {
                     key: 'channel',
