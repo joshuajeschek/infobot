@@ -1,7 +1,9 @@
 {
     "translatable_emoji": "",
     "auto_vc_cooldown": 10,
+    "tc_archive": "",
     "protected": {
-        "auto_vc_enabled": []
+        "auto_vc_enabled": [],
+        "auto_tc_enabled": []
     }
 }

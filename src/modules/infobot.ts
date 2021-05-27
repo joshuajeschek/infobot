@@ -10,6 +10,7 @@ import { refreshAutoReactors } from './autoreactmanager';
 import { refreshAutoExecs } from './autoexecmanager';
 import { refreshReactionRoles } from './reactionroles/reactionrolemanager';
 import { startTranslatableManager } from './translatablemanager';
+import { refreshArchivables } from './archivables/archivablemanager';
 
 export default class InfoBot extends Client {
     constructor(options: CommandoClientOptions) {
@@ -39,6 +40,7 @@ export default class InfoBot extends Client {
         await refreshAutoReactors(this);
         await refreshAutoExecs(this);
         await refreshReactionRoles(this);
+        await refreshArchivables(this);
     }
 
     private commandoSetup(): void {

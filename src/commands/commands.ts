@@ -5,6 +5,7 @@ import ReactionRoleCommand from './admin/reactionrole';
 import SendMessageCommand from './admin/sendmessage';
 import SetInviteCommand from './admin/setinvite';
 import SettingsCommand from './admin/settings';
+import TextChannelCommand from './channels/textchannel';
 import VoiceChannelCommand from './channels/voicechannel';
 import MenuCommand from './mensa/menu';
 import InviteCommand from './util/invite';
@@ -29,4 +30,5 @@ export const commands = [
     ReactionRoleCommand,
     SettingsCommand,
     VoiceChannelCommand,
+    TextChannelCommand,
 ];
