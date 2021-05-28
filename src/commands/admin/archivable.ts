@@ -4,6 +4,10 @@ import { ArchivableData } from '../../modules/archivables/archivable';
 import { deleteArchivable, getArchivables, refreshArchivables, setArchivable } from '../../modules/archivables/archivablemanager';
 import getConfirmation from '../../modules/util/confirmation';
 
+interface Args {
+    list: string,
+}
+
 export default class ArchivableCommand extends Command {
     public constructor(client: CommandoClient) {
         super(client, {
@@ -14,16 +18,34 @@ export default class ArchivableCommand extends Command {
             description: 'turn any channel into an archivable channel',
             examples: ['archivable'],
             guildOnly: true,
+            args: [
+                {
+                    key: 'list',
+                    label: 'list',
+                    prompt: 'List all Archivables?',
+                    type: 'string',
+                    default: false,
+                },
+            ],
         });
     }
 
-    async run(msg: CommandoMessage): Promise<null | Message> {
+    async run(msg: CommandoMessage, { list }:Args): Promise<null | Message> {
         console.log('>>> archivable by', msg.author.tag);
+
+        const archivables = await getArchivables(msg.guild.id);
+
+        if (list) {
+            let content = 'Currently active Archivables:\n>>> ';
+            archivables.forEach(archivable => {
+                content += `<#${archivable.channel_id}>: ${archivable.archived ? 'archived' : 'not archived'}\n`;
+            });
+            return msg.channel.send(content);
+        }
 
         const cat = (msg.channel as TextChannel | NewsChannel).parent;
         if (!cat) return msg.reply('Not possible in uncategorized channels');
 
-        const archivables = await getArchivables(msg.guild.id);
         const arch_enabled = archivables.some(archivable => {
             return archivable.channel_id === msg.channel.id;
         });
