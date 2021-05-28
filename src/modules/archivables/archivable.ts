@@ -1,6 +1,6 @@
 import { CategoryChannel, Client, Message, MessageReaction, TextChannel } from 'discord.js';
 import { CommandoClient, CommandoGuild } from 'discord.js-commando';
-import { deleteArchivable, setArchivable } from './archivablemanager';
+import { setArchivable } from './archivablemanager';
 
 export interface ArchivableData {
     guild_id: string,
@@ -228,11 +228,8 @@ export class Archivable {
             .messages.fetch(this.archive_msg_id);
         msg.delete();
 
-        // delete info from DB
-        // CHANGE THIS LATER?
-        // FIRST DELETE -> GET INFO (CATEGORY) -> THEN REFRESH?
-        deleteArchivable(this.channel_id);
-
+        // delete info from DB!
+        // FIRST DELETE -> GET INFO (CATEGORY) -> THEN REFRESH! (this gets called)
 
     }
 }

@@ -1,3 +1,4 @@
+import ArchivableCommand from './admin/archivable';
 import AutoExecCommand from './admin/autoexec';
 import AutoReactCommand from './admin/autoreact';
 import EditMessageCommand from './admin/editmessage';
@@ -31,4 +32,5 @@ export const commands = [
     SettingsCommand,
     VoiceChannelCommand,
     TextChannelCommand,
+    ArchivableCommand,
 ];

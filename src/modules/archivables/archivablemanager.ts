@@ -90,6 +90,7 @@ export async function deleteArchivable(channel_id:string): Promise<ArchivableDat
 export async function refreshArchivables(client:CommandoClient, archivable_data?:ArchivableData, stop?:boolean): Promise<void> {
     if (archivable_data) {
         const old_archivable = archivables.get(archivable_data.parent_id + archivable_data.channel_id);
+        archivables.delete(archivable_data.parent_id + archivable_data.channel_id);
         old_archivable?.stop();
 
         if (stop) return;
