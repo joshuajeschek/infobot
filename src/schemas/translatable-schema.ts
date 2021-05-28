@@ -7,6 +7,8 @@ const req_string = {
 
 const schema = new Schema({
     message_id: req_string,
+    channel_id: req_string,
+    guild_id: req_string,
     content: String,
     embed: Object,
 });

@@ -6,8 +6,10 @@ import getConfirmation from './util/confirmation';
 import { downloadJSON } from './util/download_attachment';
 import { translatable_emoji } from './settings.json';
 
-interface Translatable {
+export interface Translatable {
     message_id: string,
+    channel_id: string,
+    guild_id: string,
     content?: string,
     embed?: MessageEmbedOptions,
     _id?: string,
@@ -38,12 +40,25 @@ async function setTranslatable(t:Translatable): Promise<boolean> {
 
 /**
  * Get the Translatable for a certain message,
+ * or for all in guild (guild = true, id of guild)
  */
-async function getTranslatable(message_id:string): Promise<Translatable | undefined> {
+export async function getTranslatable(id:string, guild?:boolean): Promise<Translatable | Translatable[] | undefined> {
+    if (!guild) {
+        return await mongo().then(async (mongoose) => {
+            try {
+                return await translatableSchema.findOne({
+                    message_id: id,
+                });
+            }
+            finally {
+                mongoose.connection.close();
+            }
+        });
+    }
     return await mongo().then(async (mongoose) => {
         try {
-            return await translatableSchema.findOne({
-                message_id,
+            return await translatableSchema.find({
+                guild_id: id,
             });
         }
         finally {
@@ -77,6 +92,8 @@ async function deleteTranslatable(message_id:string): Promise<boolean> {
  */
 async function addTranslatable(r:MessageReaction, u:User | PartialUser): Promise<void> {
 
+    if (!r.message.guild) return;
+
     let dm = u.dmChannel;
     if (!dm) dm = await u.createDM();
     const msg = await dm.send(`You reacted to a message in ${r.message.channel} with ${r.emoji.toString()}. A matching translation could not be found.`);
@@ -99,6 +116,8 @@ async function addTranslatable(r:MessageReaction, u:User | PartialUser): Promise
         }
         const success = await setTranslatable({
             message_id: r.message.id,
+            channel_id: r.message.channel.id,
+            guild_id: r.message.guild?.id || 'NO_GUILD',
             content: m.content || undefined,
             embed: json ? new MessageEmbed(json).toJSON() || undefined : undefined,
         });
@@ -136,7 +155,7 @@ export function startTranslatableManager(client:Client): void {
 
         /* === reaction is specified emoji === */
 
-        const result = await getTranslatable(r.message.id);
+        const result = await getTranslatable(r.message.id) as Translatable;
         if (!result) return addTranslatable(r, u);
 
         let dm = u.dmChannel;
