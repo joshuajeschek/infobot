@@ -77,9 +77,9 @@ export class Archivable {
         // get channel
         const channel = await this.client.channels.fetch(this.channel_id) as TextChannel;
         // move it
-        channel.setParent(to);
+        channel.setParent(to, { lockPermissions: false });
         // set to read only
-        channel.permissionOverwrites.forEach(overwrite => {
+        channel.permissionOverwrites.forEach(async (overwrite) => {
             overwrite.update({ 'SEND_MESSAGES': false });
         });
         // delete archive_msg
@@ -123,10 +123,8 @@ export class Archivable {
 
         // get channel
         const channel = await this.client.channels.fetch(this.channel_id) as TextChannel;
-        // move it
-        channel.setParent(to.id);
-        // sync permissions
-        channel.lockPermissions();
+        // move it + sync permissions
+        await channel.setParent(to.id, { lockPermissions: true });
         // delete archive_msg
         channel.messages.resolve(this.archive_msg_id)?.delete();
 
