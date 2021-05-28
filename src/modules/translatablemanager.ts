@@ -115,7 +115,6 @@ async function addTranslatable(r:MessageReaction, u:User | PartialUser): Promise
     });
 }
 
-
 /**
  * Starts the event listeners for message translation
  */
@@ -142,7 +141,10 @@ export function startTranslatableManager(client:Client): void {
 
         let dm = u.dmChannel;
         if (!dm) dm = await u.createDM();
-        dm.send({ content: result.content, embed: result.embed });
+        dm.send({
+            content: `${r.emoji} Translation to the message in ${r.message.channel}:\n` + result.content,
+            embed: result.embed,
+        });
 
     });
 
@@ -155,8 +157,12 @@ export function startTranslatableManager(client:Client): void {
         const emoji = (r.message.guild as CommandoGuild)
             .settings.get('translatable_emoji', translatable_emoji);
 
-        if (r.emoji.toString() === emoji && u.id == client.user?.id) {
+        if (r.emoji.toString() === emoji && u.id === client.user?.id) {
             deleteTranslatable(r.message.id);
         }
+    });
+
+    client.on('messageReactionRemoveAll', (m) => {
+        deleteTranslatable(m.id);
     });
 }
