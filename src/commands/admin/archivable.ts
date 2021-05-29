@@ -18,6 +18,7 @@ export default class ArchivableCommand extends Command {
             description: 'turn any channel into an archivable channel',
             examples: ['archivable'],
             guildOnly: true,
+            userPermissions: ['ADMINISTRATOR'],
             args: [
                 {
                     key: 'list',
