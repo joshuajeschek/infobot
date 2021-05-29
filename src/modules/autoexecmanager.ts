@@ -104,6 +104,7 @@ export async function deleteAutoExec(guild_id:string, channel_id:string, type:st
 export async function refreshAutoExecs(client:Client, ae?:AutoExec, stop?:boolean): Promise<undefined | Date[]> {
     if (ae) {
         const old_job = auto_execs.get(ae.guild_id + ae.channel_id + ae.type);
+        auto_execs.delete(ae.guild_id + ae.channel_id + ae.type);
         old_job?.stop();
 
         if (stop) return;

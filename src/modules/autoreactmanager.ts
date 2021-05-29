@@ -101,6 +101,7 @@ export async function refreshAutoReactors(client:Client, ar_channel?:AutoReactCh
     if (ar_channel) {
         const old_collector = auto_reactors.get(ar_channel.guild_id + ar_channel.channel_id);
         old_collector?.stop('refresh');
+        auto_reactors.delete(ar_channel.guild_id + ar_channel.channel_id);
 
         if (stop) return;
 
@@ -129,6 +130,6 @@ export async function refreshAutoReactors(client:Client, ar_channel?:AutoReactCh
 
     const ar_channels = await getAutoReactChannels();
     ar_channels.forEach(entry => refreshAutoReactors(client, entry));
-    console.log('🚗 reloaded autoreact channels');
+    console.log('🚗 Refreshed autoreact channels');
     return;
 }

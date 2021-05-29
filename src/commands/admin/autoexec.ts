@@ -22,6 +22,7 @@ export default class AutoExecCommand extends Command {
             description: 'Registers / deletes / lists autoexec jobs',
             examples: ['autoexec #general menu "5 4 * * sun" This is the menu:'],
             userPermissions: ['ADMINISTRATOR'],
+            guildOnly: true,
             args: [
                 {
                     key: 'channel',
@@ -80,7 +81,7 @@ export default class AutoExecCommand extends Command {
 
         // #region DELETE
         if (!cron_expression) {
-            const confimation = await getConfirmation(msg, `disable the auto exec ${type} in the channel ${channel}?`);
+            const confimation = await getConfirmation(msg, msg.author.id, `disable the auto exec ${type} in the channel ${channel}?`);
 
             if (confimation) {
                 const success = await deleteAutoExec(msg.guild.id, channel.id, type);

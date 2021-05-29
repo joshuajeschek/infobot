@@ -21,6 +21,7 @@ export default class ReactionRoleCommand extends Command {
             description: 'Create reaction roles, bound to messages',
             examples: ['reactionrole #getroles 53917 @happy 😀'],
             userPermissions: ['ADMINISTRATOR'],
+            guildOnly: true,
             args: [
                 {
                     key: 'channel',
@@ -75,7 +76,7 @@ export default class ReactionRoleCommand extends Command {
 
         // #region DELETE ALL OF CHANNEL
         if (!message) {
-            const choice = await getConfirmation(msg, `Delete all reaction roles in ${channel}?`);
+            const choice = await getConfirmation(msg, msg.author.id, `Delete all reaction roles in ${channel}?`);
             if (choice) {
                 const success = await deleteReactionRole(msg.guild.id, channel.id);
                 if (success) {
@@ -92,7 +93,7 @@ export default class ReactionRoleCommand extends Command {
 
         // #region DELETE ALL OF MESSAGE
         if (!role) {
-            const choice = await getConfirmation(msg, `Delete all reaction roles of message ${message.id} in ${channel}?`);
+            const choice = await getConfirmation(msg, msg.author.id, `Delete all reaction roles of message ${message.id} in ${channel}?`);
             if (choice) {
                 const success = await deleteReactionRole(msg.guild.id, channel.id, message.id);
                 if (success) {
@@ -109,7 +110,7 @@ export default class ReactionRoleCommand extends Command {
 
         // #region DELETE SINGLE ROLEREACTION
         if (!reaction) {
-            const choice = await getConfirmation(msg, `Delete reaction role ${role} of message ${message.id} in ${channel}?`);
+            const choice = await getConfirmation(msg, msg.author.id, `Delete reaction role ${role} of message ${message.id} in ${channel}?`);
             if (choice) {
                 const success = await deleteReactionRole(msg.guild.id, channel.id, message.id, role.id);
                 if (success) {

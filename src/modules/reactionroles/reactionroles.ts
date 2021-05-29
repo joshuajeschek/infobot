@@ -73,14 +73,14 @@ export class ReactionRole {
         const role = await r.message.guild?.roles.fetch(this.role_id);
 
         if (!member || !role) {
-            const msg = await r.message.channel.send('⚠ Role not available, please contact an admin.');
-            setTimeout(() => msg.delete(), 5 * 1000);
+            r.message.channel.send('⚠ Role not available, please contact an admin.')
+                .then(msg => msg.delete({ timeout: 5 * 1000 }));
             return;
         }
 
         member.roles.add(role);
-        const msg = await r.message.channel.send(`✅ You have been given the role \`${role.name}\``);
-        setTimeout(() => msg.delete(), 5 * 1000);
+        r.message.channel.send(`✅ You have been given the role \`${role.name}\``)
+            .then(msg => msg.delete({ timeout: 5 * 1000 }));
         return;
     }
 
@@ -94,14 +94,14 @@ export class ReactionRole {
         const role = await r.message.guild?.roles.fetch(this.role_id);
 
         if (!member || !role) {
-            const msg = await r.message.channel.send('⚠ Role not available, please contact an admin.');
-            setTimeout(() => msg.delete(), 5 * 1000);
+            r.message.channel.send('⚠ Role not available, please contact an admin.')
+                .then(msg => msg.delete({ timeout: 5 * 1000 }));
             return;
         }
 
         member.roles.remove(role);
-        const msg = await r.message.channel.send(`🗑 Your role \`${role.name}\` has been removed.`);
-        setTimeout(() => msg.delete(), 5 * 1000);
+        r.message.channel.send(`🗑 Your role \`${role.name}\` has been removed.`)
+            .then(msg => msg.delete({ timeout: 5 * 1000 }));
         return;
     }
 

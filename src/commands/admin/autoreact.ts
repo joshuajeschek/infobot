@@ -81,7 +81,7 @@ export default class AutoReactCommand extends Command {
 
         // #region DELETE AR CHANNEL
         if (!emojis) {
-            const confimation = await getConfirmation(msg, `disable the auto reaction channel ${channel}?`);
+            const confimation = await getConfirmation(msg, msg.author.id, `disable the auto reaction channel ${channel}?`);
 
             if (confimation) {
                 const success = await deleteAutoReactChannel(msg.guild.id, channel.id);

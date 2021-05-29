@@ -120,6 +120,6 @@ export async function refreshReactionRoles(client:Client, rr?:ReactionRoleData, 
 
     const rr_s = await getReactionRole();
     rr_s.forEach(entry => refreshReactionRoles(client, entry));
-    console.log('👩‍⚕️ Refreshed ReactionRoles');
+    console.log('🧻 Refreshed ReactionRoles');
     return;
 }

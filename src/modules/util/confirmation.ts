@@ -3,9 +3,9 @@ import { Message, MessageReaction, User } from 'discord.js';
 /**
  * asks the user for confirmation on something, bound to a message
  */
-export default async function getConfirmation(msg:Message, prompt:string): Promise<boolean> {
+export default async function getConfirmation(msg:Message, confirmer_id:string, prompt:string): Promise<boolean> {
     const filter = (r:MessageReaction, u:User) => {
-        return u.equals(msg.author) && ['✅', '❌'].includes(r.emoji.toString());
+        return u.id === confirmer_id && ['✅', '❌'].includes(r.emoji.toString());
     };
     const decider = await msg.reply(prompt);
     decider.react('✅');
@@ -16,14 +16,13 @@ export default async function getConfirmation(msg:Message, prompt:string): Promi
         collector.on('collect', r => {
             if (r.emoji.toString() === '✅') {
                 collector.stop('confirm');
-                msg.react('✅');
                 resolve(true);
             }
             else { resolve(false); }
         });
         collector.on('end', (_, reason) => {
             if (reason != 'confirm') {
-                msg.react('❌');
+                resolve(false);
             }
         });
         setTimeout(() => {

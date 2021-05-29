@@ -9,6 +9,8 @@ import { commands, groups } from './../commands/commands';
 import { refreshAutoReactors } from './autoreactmanager';
 import { refreshAutoExecs } from './autoexecmanager';
 import { refreshReactionRoles } from './reactionroles/reactionrolemanager';
+import { startTranslatableManager } from './translatablemanager';
+import { refreshArchivables } from './archivables/archivablemanager';
 
 export default class InfoBot extends Client {
     constructor(options: CommandoClientOptions) {
@@ -38,12 +40,17 @@ export default class InfoBot extends Client {
         await refreshAutoReactors(this);
         await refreshAutoExecs(this);
         await refreshReactionRoles(this);
+        await refreshArchivables(this);
     }
 
     private commandoSetup(): void {
         this.registry
             .registerGroups(groups)
-            .registerDefaults()
+            .registerDefaultTypes()
+            .registerDefaultGroups()
+            .registerDefaultCommands({
+                unknownCommand: false,
+            })
             .registerCommands(commands);
 
         console.log('💬 Loaded these commands:\n', this.registry.commands.keys());
@@ -63,6 +70,7 @@ export default class InfoBot extends Client {
                 type: 'WATCHING',
             });
             this.refresh();
+            startTranslatableManager(this);
         });
 
         /* Friendly Error Logging */
