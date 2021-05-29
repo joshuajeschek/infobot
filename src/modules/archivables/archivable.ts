@@ -82,6 +82,13 @@ export class Archivable {
         channel.permissionOverwrites.forEach(async (overwrite) => {
             overwrite.update({ 'SEND_MESSAGES': false });
         });
+        // was accessible to everyone
+        if (channel.permissionOverwrites.size === 0) {
+            channel.createOverwrite(channel.guild.roles.everyone, {
+                'SEND_MESSAGES': false,
+            });
+        }
+
         // delete archive_msg
         channel.messages.resolve(this.archive_msg_id)?.delete();
 
@@ -195,13 +202,15 @@ export class Archivable {
         this.archive_msg_id = msg.id;
 
         // update in database
-        setArchivable({
-            guild_id: this.guild_id,
-            parent_id: this.parent_id,
-            channel_id: this.channel_id,
-            archive_msg_id: this.archive_msg_id,
-            archived: this.archived,
-        });
+        if (!msg_id) {
+            setArchivable({
+                guild_id: this.guild_id,
+                parent_id: this.parent_id,
+                channel_id: this.channel_id,
+                archive_msg_id: this.archive_msg_id,
+                archived: this.archived,
+            });
+        }
     }
 
     /**
